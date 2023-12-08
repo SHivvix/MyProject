@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d360753269a3452db74ab17fa9d24de9" Name="Diagram1" ZoomLevel="88">
+        <EntityTypeShape EntityType="ProcurementInfoModel.S_Legislation" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+		  <EntityTypeShape EntityType="ProcurementInfoModel.S_SubjectPurchase" Width="1.5" PointX="0.75" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcurementInfoModel.S_Result" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcurementInfoModel.S_WinStatus" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcurementInfoModel.T_ProcurementInformation" Width="2.375" PointX="3.375" PointY="1.25" IsExpanded="true" />
+        <AssociationConnector Association="ProcurementInfoModel.FK_ProcurementInfo_Diagram_S_Legislation" ManuallyRouted="false" />
+		  <AssociationConnector Association="ProcurementInfoModel.FK_ProcurementInfo_Diagram_S_SubjectPurchase" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcurementInfoModel.FK_ProcurementInfo_Diagram_S_Result" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcurementInfoModel.FK_ProcurementInfo_Diagram_S_WinStatus" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ProcurementInfoModel.S_Currency" Width="1.5" PointX="6.5" PointY="0.75" />
+        <AssociationConnector Association="ProcurementInfoModel.FK_T_ProcurementInformation_S_Currency" />
+        <EntityTypeShape EntityType="ProcurementInfoModel.S_Country" Width="1.5" PointX="6.5" PointY="6.25" />
+        <AssociationConnector Association="ProcurementInfoModel.S_CountryT_ProcurementInformation" />
+        <EntityTypeShape EntityType="ProcurementInfoModel.sysdiagrams" Width="1.5" PointX="6.5" PointY="3.625" />
+        <AssociationConnector Association="ProcurementInfoModel.FK__T_Procure__ID_SU__49C3F6B7" />
+        <EntityTypeShape EntityType="ProcurementInfoModel.S_LegislDo1000" Width="1.5" PointX="10.75" PointY="2.875" />
+        <EntityTypeShape EntityType="ProcurementInfoModel.T_PrInfoDo1000" Width="1.5" PointX="8.625" PointY="0.75" />
+        <AssociationConnector Association="ProcurementInfoModel.T_PrInfoDo1000_Currency" />
+        <AssociationConnector Association="ProcurementInfoModel.T_PrInfoDo1000_Legislation" />
+        <EntityTypeShape EntityType="ProcurementInfoModel.S_WinStatusDo1000" Width="1.5" PointX="10.75" PointY="0.75" />
+        <AssociationConnector Association="ProcurementInfoModel.FK_PrInfoDo1000_WinStatus" ManuallyRouted="false" >
+        </AssociationConnector>
+        <EntityTypeShape EntityType="ProcurementInfoModel.S_SubDivision" Width="1.5" PointX="6.5" PointY="9" />
+        <AssociationConnector Association="ProcurementInfoModel.FK__T_PrInfoD__ID_SU__5629CD9C" />
+        <AssociationConnector Association="ProcurementInfoModel.FK__T_Procure__ID_SU__5535A963" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,412 @@
+﻿@using WebApplication.Models
+@{
+    ViewBag.Title = "Home";
+}
+<div id="grid" style="margin-top:80px">
+    <p align="right"><a href="/Home/Index">Перейти в закупки свыше 1000 БВ --></a></p>
+    @Html.EJS().DateRangePicker("daterangepicker").Format("dd.MM.yyyy").Width("25%").Presets(PresetItem =>
+            {
+                PresetItem.Label("Эта неделя").Start(ViewBag.weekStart).End(ViewBag.weekEnd).Add();
+                PresetItem.Label("Этот месяц").Start(ViewBag.monthStart).End(ViewBag.monthEnd).Add();
+                 PresetItem.Label("Этот год").Start(ViewBag.YearStart).End(ViewBag.YearEnd).Add();
+                PresetItem.Label("Прошлый месяц").Start(ViewBag.lastMonthStart).End(ViewBag.lastMonthEnd).Add();
+                PresetItem.Label("Прошлый год").Start(ViewBag.lastYearStart).End(ViewBag.lastYearEnd).Add();
+            }
+            ).Change("onChange").Render()
+
+    <div class="modal-content" , id="Modal">
+        <div class="modal-header">
+            <button class="close" data-dismiss="modal" area-hidden="true" onclick="M_C()"></button>
+            <script>
+                function M_C() {
+                    document.getElementById("Modal").style.display = "none";
+                }</script>
+            <h4>Отчет</h4>
+        </div>
+        <div class="modal-body">
+
+            <dl class="dl-horizontal">
+                <br>
+                <label align="center">C </label>
+                <input type="date" id="dateS" />
+                <label> по </label>
+                <input type="date" id="dateF" /></br>
+                <br>
+                <button class="btn" onclick="saveexl()">Сформировать</button></br>
+            </dl>
+        </div>
+    </div>
+    <br />
+    <br />
+    <h1 align="center">Закупки менее 1000 БВ</h1>
+    @(Html.EJS().Grid<T_PrInfoDo1000>
+                                                                    ("Grid")
+                                                                    .DataSource(dataManager =>
+                                                                    {
+                                                                        dataManager
+                                                                        .Url("/Home/DatasourceDo1000")
+                                                                        .CrudUrl("/Home/CrudFuncDo1000")
+                                                                        .Adaptor("UrlAdaptor");
+                                                                    })
+                                                                    .AllowPaging()
+                                                                    .ToolbarClick("toolbarClick")
+                                                                    .Columns(col =>
+                                                                    {
+                                                                        col.Field("ID").IsPrimaryKey(true).Visible(false).Add();
+                                                                        col.Field("NAME_PR").HeaderText("Наименование процедуры закупки").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("190").ValidationRules(new { required = true }).Add();
+                                                                        col.Field("CONTRACT_NUMBER").HeaderText("Рег. номер контракта").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("140").ValidationRules(new { required = false }).Add();
+                                                                        col.Field("FIO_ISP").HeaderText("Ответственный исполнитель").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("150").ValidationRules(new { required = true }).Add();
+                                                                        col.Field("ID_WINSTATUSDO1000").HeaderText("Статус поставщика").ForeignKeyField("ID").ForeignKeyValue("NAME").ValidationRules(new { required = false }).DataSource((IEnumerable<S_WinStatus>
+                                                                            )ViewBag.WinStatusDo1000List).TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("200").Add();
+                                                                        col.Field("ID_LEGISLDO1000").HeaderText("Процедура закупки").ForeignKeyField("ID").ForeignKeyValue("NAME").ValidationRules(new { required = true }).DataSource((IEnumerable<S_LegislDo1000>
+                                                                            )ViewBag.LegislDo1000List).TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("200").Add();
+                                                                        col.Field("DATE_CONCLUSION").HeaderText("Дата заключения контракта").EditType("datapiceredit").Edit(new { @params = new { format = "dd.MM.yyyy" } }).Format("dd.MM.yyyy").Type("dateTime").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("135").DefaultValue(DateTime.Now).ValidationRules(new { required = true }).Add();
+                                                                        col.Field("WIN_VALUE_NDE").HeaderText("Сумма в НДЕ").Type("number").Format("N2").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("135").ValidationRules(new { required = false }).Add();
+                                                                        col.Field("WIN_VALUE").HeaderText("Сумма в вал.").Type("number").Format("N2").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("135").ValidationRules(new { required = false }).Add();
+                                                                        col.Field("ID_CURRENCY").HeaderText("Валюта").ForeignKeyField("ID").ForeignKeyValue("LETTER_CODE").ValidationRules(new { required = false }).DataSource((IEnumerable<S_Currency>
+                                                                            )ViewBag.CurrencyList).TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("200").Add();
+                                                                        col.Field("WIN_VALUE_NNDS").HeaderText("Сумма в бел. руб. без НДС").Type("number").Format("N2").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("135").ValidationRules(new { required = false }).Add();
+                                                                        col.Field("WIN_NAME").HeaderText("Контррагент").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("135").ValidationRules(new { required = false }).Add();
+
+
+
+
+                                                                    })
+                                                                                                .GridLines(Syncfusion.EJ2.Grids.GridLine.Both)
+                                                                                                .AllowResizing(true)
+                                                                                                .AllowPaging(false)
+                                                                                                .PageSettings(page => page.PageSize(10))
+                                                                                                .AllowSorting(true)
+                                                                                                .AllowGrouping(true)
+                                                                                                .AllowFiltering(true)
+                                                                                                .FilterSettings(filter => { filter.Type(Syncfusion.EJ2.Grids.FilterType.CheckBox); })
+                                                                                                .AllowTextWrap()
+                                                                                                .Height("600")
+                                                                                                .EditSettings(edit =>
+                                                                                                {
+                                                                                                    edit.AllowAdding(true)
+                                                                                            .AllowEditing(true)
+                                                                                            .AllowDeleting(true)
+                                                                                            .Mode(Syncfusion.EJ2.Grids.EditMode.Normal)
+                                                                                            .ShowDeleteConfirmDialog(true);
+                                                                                                })
+                                                                                                .Toolbar(new List<string>
+                                                                                                    () { "Add", "Edit", "Delete", "Update", "Cancel", "ExcelExport", "www.icetrade.by", "Search"})
+                                                                                                    .SearchSettings(search => { search.Fields(new string[] { "NAME_PR" }).Operator("contains").IgnoreCase(true); })
+                                                                                                    .AllowExcelExport()
+                                                                                                    .QueryCellInfo("checkDate")
+                                                                                                    .Render()
+    )
+
+</div>
+
+<script>
+    function M_V() {
+        document.getElementById("Modal").style.display = "block";
+    }
+</script>
+
+<script>
+    function toolbarClick(args) {
+        var gridObj = document.getElementById("Grid").ej2_instances[0];
+        if (args.item.id === 'Grid_excelexport') {
+            gridObj.excelExport();
+        }
+
+        if (args.item.id === 'Grid_Создание отчета') {
+            M_V();
+        }
+        if (args.item.id === 'Grid_www.icetrade.by') {
+            var invnum = "";
+            var rowIndex = gridObj.selectedRowIndex;
+            if (rowIndex > -1) {
+                var rowObj = gridObj.getRowObjectFromUID(gridObj.getSelectedRows()[0].getAttribute('data-uid'));
+                invnum = rowObj.data.INVITE_NUN;
+            };
+            //if (!gridObj.INVITE_NUN) {
+            //    var inv_num = gridObj.INVITE_NUN;
+            //    invnum = inv_num.substr(5);
+            //};
+
+            var url = "http://www.icetrade.by/tenders/all/view/" + invnum.substr(5);
+            var win = window.open(url, '_blank');
+            win.focus();
+        }
+
+        document.getElementById('Grid_edit').onclick = setTimeout(edit_click, 100);
+
+        function edit_click(clicked) {
+            var datepickers = document.getElementsByClassName('e-datepicker');
+            for (var i = 0; i < datepickers.length; i++) {
+                var datepicker = datepickers[i].ej2_instances[0];
+                datepicker.locale = 'ru';
+                datepicker.firstDayOfWeek = 1;
+            }
+        }
+    }
+</script>
+
+<script>
+    function checkDate(args) {
+
+        if (args.column.field === 'CONTRACT_DATE_FACT') {
+            if (!args.data['CONTRACT_DATE_FACT']) {
+                args.cell.classList.add('less-or-null-term-date');
+            } else if (args.data['CONTRACT_DATE_TERM']) {
+                if (args.data['CONTRACT_DATE_FACT'] > args.data['CONTRACT_DATE_TERM']) {
+                    args.cell.classList.add('less-or-null-term-date');
+                }
+            }
+        }
+
+        if (args.column.field === 'RESULT_DATE_FACT') {
+            if (!args.data['RESULT_DATE_FACT']) {
+                args.cell.classList.add('less-or-null-term-date');
+            } else if (args.data['RESULT_DATE_TERM']) {
+                if (args.data['RESULT_DATE_FACT'] > args.data['RESULT_DATE_TERM']) {
+                    args.cell.classList.add('less-or-null-term-date');
+                }
+            }
+        }
+
+        if (args.column.field === 'ID_RESULT') {
+            if (args.data['ID_RESULT'] == '1') {
+                args.cell.classList.add('id-result-success');
+            }
+            else if (args.data['ID_RESULT'] == '2') {
+                args.cell.classList.add('id-result-fail');
+            }
+        }
+
+        if (args.column.field === 'MAIN_TEC_SPECS') {
+            args.cell.classList.add('e-attrs');
+        }
+    }
+
+</script>
+
+<script>
+    function saveexl() {
+
+        var data1 = document.getElementById("dateS").value;
+        var data2 = document.getElementById("dateF").value;
+        var today = new Date();
+        var thisDay = today.toLocaleString();
+        var DataObj = { 'd1': data1, 'd2': data2, 'thisDay': thisDay };
+        $.ajax({
+            url: "/Home/Export",
+            type: "POST",
+            contentType: "application/json;charset=UTF-8",
+            data: JSON.stringify(DataObj),
+            dataType: "html",
+        })
+    }
+</script>
+
+<script>
+    function onChange(args) {
+        var gridObj = document.getElementById("Grid").ej2_instances[0];
+        var query = new ej.data.Query();
+        if (args.value != null) {
+            query.addParams('dateFrom', args.startDate);
+            query.addParams('dateTo', args.endDate);
+        }
+        gridObj.query = query;
+        gridObj.dataSource = new ej.data.DataManager({
+            url: "/Home/DatasourceDo1000",
+            crudUrl: "/Home/CrudFuncDo1000",
+            adaptor: new ej.data.UrlAdaptor()
+        });
+        gridObj.refreshContenet();
+    }
+</script>
+
+<style>
+    .less-or-null-term-date {
+        background-color: #ffd7cc;
+        color: #e60000 !important;
+    }
+
+    .id-result-success {
+        background-color: #ccffcc;
+        color: #00cc00 !important;
+    }
+
+    .id-result-fail {
+        background-color: #ffd7cc;
+        color: #e60000 !important;
+    }
+
+    .e-edit-dialog {
+        min-width: 500px !important;
+    }
+
+    .e-attrs {
+        font-size: 6px;
+    }
+
+    #Modal {
+        display: none;
+        width: 500px;
+        height: 300px;
+        top: 45%;
+        left: 30%;
+    }
+
+    .btn {
+        text-decoration: none;
+        color: #6b5770;
+        display: inline-block;
+        padding: 14px 20px;
+        border: 1px solid;
+        position: relative;
+        z-index: 0;
+        border-radius: 5px;
+        box-sizing: border-box;
+        margin: 0 15px 15px 0;
+        outline: none;
+        cursor: pointer;
+        user-select: none;
+        appearance: none;
+        touch-action: manipulation;
+    }
+
+        .btn:before {
+            content: '';
+            position: absolute;
+            left: -2px;
+            top: -2px;
+            width: calc(100% + 4px);
+            height: calc(100% + 4px);
+            z-index: -2;
+            transition: .4s;
+            border-radius: 5px;
+        }
+
+        .btn:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #fff, #fff);
+            z-index: -1;
+            transition: .4s;
+            border-radius: 4px;
+        }
+
+        .btn:hover {
+            color: #fff;
+            transition: .3s;
+        }
+
+            .btn:hover:after {
+                background: linear-gradient(90deg, #152EBD, #00FFFF);
+            }
+
+        .btn:active:after {
+            background: linear-gradient(1deg, #152EBD, #00FFFF);
+        }
+
+        .btn:focus-visible {
+            box-shadow: 0 0 0 3px #fd7f34;
+        }
+
+        .btn:disabled {
+            pointer-events: none;
+        }
+
+    .down:hover {
+        border-bottom: 2px solid #5be;
+        color: #555;
+        background-image: linear-gradient(180deg, transparent 65%, #5bf 65%);
+        background-position: 0% 100%;
+        background-repeat: no-repeat;
+        background-size: 100% 0%;
+    }
+
+    .close {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        width: 55px;
+        height: 55px;
+        cursor: pointer;
+        border: 4px solid #e62f57;
+        border-radius: 50%;
+    }
+
+        .close:before,
+        .close:after {
+            content: "";
+            position: absolute;
+            top: 21px;
+            left: 10px;
+            width: 26px;
+            height: 4px;
+            background: #e62f57;
+        }
+
+        .close:before {
+            webkit-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+
+        .close:after {
+            webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+        }
+
+    .switch-btn {
+        display: inline-block;
+        width: 62px; /* ширина переключателя */
+        height: 24px; /* высота переключателя */
+        border-radius: 12px; /* радиус скругления */
+        background: #bfbfbf; /* цвет фона */
+        z-index: 0;
+        margin: 0;
+        padding: 0;
+        border: none;
+        cursor: pointer;
+        position: relative;
+        transition-duration: 300ms; /* анимация */
+    }
+
+        .switch-btn::after {
+            content: "";
+            height: 36px; /* высота кнопки */
+            width: 36px; /* ширина кнопки */
+            border-radius: 18px; /* радиус кнопки */
+            background: #fff; /* цвет кнопки */
+            top: -6px; /* положение кнопки по вертикали относительно основы */
+            left: -6px; /* положение кнопки по горизонтали относительно основы */
+            transition-duration: 300ms; /* анимация */
+            box-shadow: 0 0 10px 0 #999999; /* тень */
+            position: absolute;
+            z-index: 1;
+        }
+
+    .switch-on {
+        background: #fff;
+        box-shadow: inset 0 0 10px 0 #999999; /* тень */
+    }
+
+        .switch-on::after {
+            left: 30px;
+            background: #118c4e;
+        }
+
+
+    H1 {
+        text-shadow: 1px 1px white, 2px 2px #777;
+        color: #333;
+        transition: all 1s;
+    }
+
+        H1:hover {
+            text-shadow: 1px 1px white, 2px 2px blue;
+            color: crimson;
+        }
+    }
+</style>

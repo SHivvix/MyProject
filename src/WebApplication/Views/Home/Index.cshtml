@@ -1,0 +1,1425 @@
+﻿@using WebApplication.Models
+@{
+    ViewBag.Title = "Home Page";
+}
+@Html.ActionLink("Закупки свыше 1000 БВ", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+<div id="grid" style="margin-top:80px">
+    <p align="right"> <a href="/Home/Index_do1k">Перейти к закупкам до 1000 БВ --></a> </p>
+    </p>
+    @Html.EJS().DateRangePicker("daterangepicker").Format("dd.MM.yyyy").Width("25%").Presets(PresetItem =>
+            {
+                PresetItem.Label("Эта неделя").Start(ViewBag.weekStart).End(ViewBag.weekEnd).Add();
+                PresetItem.Label("Этот месяц").Start(ViewBag.monthStart).End(ViewBag.monthEnd).Add();
+                 PresetItem.Label("Этот год").Start(ViewBag.YearStart).End(ViewBag.YearEnd).Add();
+                PresetItem.Label("Прошлый месяц").Start(ViewBag.lastMonthStart).End(ViewBag.lastMonthEnd).Add();
+                PresetItem.Label("Прошлый год").Start(ViewBag.lastYearStart).End(ViewBag.lastYearEnd).Add();
+            }
+            ).Change("onChange").Render()
+
+    <div class="modal-content" , id="Modal">
+        <div class="modal-header">
+            <button class="close" data-dismiss="modal" area-hidden="true" onclick="M_C()"></button>
+            <script>
+                function M_C() {
+                    document.getElementById("Modal").style.display = "none";
+                }</script>
+            <h4 align="center">Отчет</h4>
+        </div>
+        <div class="modal-body">
+            <button class="btn" onclick="AllInfoReport()">?</button>
+            <br />
+            <dl class="dl-horizontal">
+
+                <h4 align="center">
+                    <label align="center">C </label>
+                    <input type="date" id="dateS" />
+                    <label> по </label>
+                    <input type="date" id="dateF" />
+                </h4>
+                <br />
+                <br />
+                <br />
+                <br />
+                <div class="container-buttons">
+                    <button onclick="Create_Report()">Сформировать</button>
+                    <a class="button" id="insdatacreate" href="/images/Report.xlsx"><br>Скачать последний<br>сформерованный отчет</a>
+                    <div>
+            </dl>
+        </div>
+    </div>
+
+    <div class="modal-content" , id="Modal_add">
+        <div class="modal-header">
+            <button class="close" data-dismiss="modal" area-hidden="true" onclick="M_C_add()"></button>
+            <script>
+                function M_C_add() {
+                    document.getElementById("Modal_add").style.display = "none";
+                }</script>
+            <h4 align="center">Добавление записи в таблицу</h4>
+        </div>
+        <div class="modal-body">
+            <div class="container">
+                <div class="right">
+                    <h4 align="center">Обязательные поля для ввода</h4>
+                    <div class="block-1">
+                        <br><p data-tooltip="Поле обязательное для ввода.">
+                            Наименование процедуры закупки<h9 id="redast">*</h9>
+                            <input id="a1"></input>
+                        </p></br>
+                    </div>
+                    <div class="block-1">
+                        <br><p data-tooltip="Поле обязательное для ввода.">
+                            Предмет закупки<h9 id="redast">*</h9>
+                            <select id="a2">
+                                @foreach (var sub in ViewBag.Subject)
+                                {
+                                <option>@sub</option>
+                                }
+                            </select>
+                        </p></br>
+                    </div>
+                    <div class="block-1">
+                        <br><p data-tooltip="Поле обязательное для ввода.">
+                            Ответственный исполнитель<h9 id="redast">*</h9>
+                            <input id="a4"></input>
+                        </p></br>
+                    </div>
+
+                    <div class="block-1">
+                        <br><p data-tooltip="Поле обязательное для ввода.">
+                            Структурное подразделение<h9 id="redast">*</h9>
+                            <select id="a28">
+                                @foreach (var legisl in ViewBag.Division)
+                                {
+                                <option>@legisl</option>
+                                }
+                            </select>
+                        </p></br>
+                    </div>
+
+                    <div class="block-1">
+                        <br><p data-tooltip="Поле обязательное для ввода.">
+                            Процедура закупки<h9 id="redast">*</h9>
+                            <select id="a5">
+                                @foreach (var legisl in ViewBag.Legislation)
+                                {
+                                <option>@legisl</option>
+                                }
+                            </select>
+                        </p></br>
+                    </div>
+                    <div class="block-1">
+                        <br><p data-tooltip="При не введенной дате будет выставленна дата на момент создания записи">
+                            Дата утверждения протокола / биржевой сделаки
+                            <input type="date" id="a7"></input>
+                        </p></br>
+                    </div>
+                    <div class="block-1">
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br><p data-tooltip="Проверьте, все ли обязательные поля заполненны!">
+                            <button onclick="check_data()">Добавить</button>
+                        </p></br>
+                    </div>
+                </div>
+                <div class="left">
+                    <h4 align="center">Не обязательные поля ввода</h4>
+                    <div class="block-1">
+                        Рег. номер приглашени
+                        <input id="a3"></input>
+                    </div>
+                    <div class="block-1">
+                        Кол-во участн-в, соотв-х заявл. треб-ям
+                        <input id="a6"></input>
+                    </div>
+                    <div class="block-1">
+                        Результат закупки
+                        <select id="a8">
+                            <option></option>
+                            @foreach (var res in ViewBag.Result)
+                            {
+                            <option>@res</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="block-1">
+                        Дата закулючения договора по сроку
+                        <input type="date" id="a9" disabled="true"></input>
+                    </div>
+                    <div class="block-1">
+                        Дата заключения договора продление
+                        <input type="date" id="a10"></input>
+                    </div>
+                    <div class="block-1">
+                        Дата заключения договора факт
+                        <input type="date" id="a11"></inupt>
+                    </div>
+                    <div class="block-1">
+                        Номер договора
+                        <input id="a12"></input>
+                    </div>
+                    <div class="block-1">
+                        Дата размещения результата на сайте по сроку
+                        <input type="date" id="a13" disabled="true"></input>
+                    </div>
+                    <div class="block-1">
+                        Дата размещения результа на сайте факт
+                        <input type="date" id="a14"></input>
+                    </div>
+                    <div class="block-1">
+                        Поставщик
+                        <input id="a15"></input>
+                    </div>
+                    <div class="block-1">
+                        <p data-tooltip="Введите название станы, пример: Беларусь, или выберите из списка.">
+                            Страна регистрации поставщика
+                            <input id="a16" list="cherecter"></input>
+                            <datalist id="cherecter">
+                                @foreach (var country in ViewBag.Country)
+                                {
+                                <option>@country</option>
+                                }
+                            </datalist>
+                        </p>
+                    </div>
+                    <div class="block-1">
+                        Стоимость
+                        <input id="a17"></input>
+                    </div>
+                    <div class="block-1">
+                        Валюта
+                        <select id="a18">
+                            <option></option>
+                            @foreach (var cur in ViewBag.Currency)
+                            {
+                            <option>@cur</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="block-1">
+                        Стоимость товара в бел.руб. без НДС
+                        <input id="a19"></input>
+                    </div>
+                    <div class="block-1">
+                        Статус
+                        <select id="a20">
+                            <option></option>
+                            @foreach (var win in ViewBag.WinStatus)
+                            {
+                            <option>@win</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="block-1">
+                        Объем закупки
+                        <input id="a21"></input>
+                    </div>
+                    <div class="block-1">
+                        Ед. изм.
+                        <input id="a22"></input>
+                    </div>
+                    <div class="block-1">
+                        Цена за ед. товара в валюте договора
+                        <input id="a23"></input>
+                    </div>
+                    <div class="block-1">
+                        Условия поставки
+                        <input id="a24"></input>
+                    </div>
+                    <div class="block-1">
+                        Основные технические хар-ки
+                        <input id="a25"></input>
+                    </div>
+                    <div class="block-1">
+                        <p data-tooltip="Введите название станы, пример: Беларусь, или выберите из списка.">
+                            Страна происхождения товара
+                            <input id="a26" list="character_1"></input>
+                            <datalist id="character_1">
+                                @foreach (var country in ViewBag.Country)
+                                {
+                                <option>@country</option>
+                                }
+                            </datalist>
+                        </p>
+                    </div>
+                    <div class="block-1">
+                        Производитель продукции
+                        <input id="a27"></input>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-content" , id="Modal_excel">
+        <div class="modal-header">
+            <button class="close" data-dismiss="modal1" area-hidden="true" onclick="M_excel_C()"></button>
+            <script>
+                function M_excel_C() {
+                    document.getElementById("Modal_excel").style.display = "none";
+                }</script>
+            <h4 align="center">Импорт из Excel</h4>
+        </div>
+        <div class="modal-body">
+            <div align="center">
+                <br />
+                <br />
+                <input type="file" name="upload" id="uploadFile" /><br />
+                <button id="submit">Загрузить</button>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <a href="/images/Template.xlsx">Скачать шаблон</a>
+            </div>
+            @section scripts{
+                <script type="text/javascript">
+
+    $('#submit').on('click', function (e) {
+        e.preventDefault();
+        var files = document.getElementById('uploadFile').files;
+        if (files.length > 0) {
+            if (window.FormData !== undefined) {
+                var data = new FormData();
+                for (var x = 0; x < files.length; x++) {
+                    data.append("file" + x, files[x]);
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Upload", "Home")',
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (result) {
+                        alert(result);
+                        var gridObj = document.getElementById("Grid").ej2_instances[0];
+                        gridObj.refresh();
+                        document.getElementById("Modal_excel").style.display = "none";
+                    },
+                    error: function (xhr, status, p3) {
+                        alert(xhr.responseText);
+                    }
+                });
+            } else {
+                alert("Браузер не поддерживает загрузку файлов HTML5!");
+            }
+        }
+    });
+
+                </script>
+            }
+        </div>
+    </div>
+
+    <div class="modal-content" , id="Modal_Update">
+        <div class="modal-header">
+            <button class="close" data-dismiss="modal" area-hidden="true" onclick="M_C_Update()"></button>
+            <script>
+                function M_C_Update() {
+                    document.getElementById("Modal_Update").style.display = "none";
+                }</script>
+            <h4 align="center">Редактирование записи</h4>
+        </div>
+        <div class="modal-body">
+            № записи
+            <input id="id"></input> <button onclick="EnterFromNumber()" id="b1">Загрузить запись</button> <button disabled="true" id="b2" onclick="Edit_button()">Измнить</button><br />
+            <div class="hid_div" id="hid_dv">
+                <div class="container">
+                    <div class="right">
+                        <h4 align="center">Обязательные поля для ввода</h4>
+                        <div class="block-1">
+
+                            <br><p data-tooltip="Поле обязательное для ввода.">
+                                Наименование процедуры закупки<h9 id="redast">*</h9>
+                                <input id="in1"></input>
+                            </p></br>
+                        </div>
+                        <div class="block-1">
+                            <br><p data-tooltip="Поле обязательное для ввода.">
+                                Предмет закупки<h9 id="redast">*</h9>
+                                <select id="in2">
+                                    @foreach (var sub in ViewBag.Subject)
+                                    {
+                                    <option>@sub</option>
+                                    }
+                                </select>
+                            </p></br>
+                        </div>
+                        <div class="block-1">
+                            <br><p data-tooltip="Поле обязательное для ввода.">
+                                Ответственный исполнитель<h9 id="redast">*</h9>
+                                <input id="in4"></input>
+                            </p></br>
+                        </div>
+
+                        <div class="block-1">
+                            <br><p data-tooltip="Поле обязательное для ввода.">
+                                Структурное подразделение<h9 id="redast">*</h9>
+                                <select id="in28">
+                                    @foreach (var legisl in ViewBag.Division)
+                                    {
+                                    <option>@legisl</option>
+                                    }
+                                </select>
+                            </p></br>
+                        </div>
+
+                        <div class="block-1">
+                            <br><p data-tooltip="Поле обязательное для ввода.">
+                                Процедура закупки<h9 id="redast">*</h9>
+                                <select id="in5">
+                                    @foreach (var legisl in ViewBag.Legislation)
+                                    {
+                                    <option>@legisl</option>
+                                    }
+                                </select>
+                            </p></br>
+                        </div>
+                        <div class="block-1">
+                            <br><p data-tooltip="При не введенной дате будет выставленна дата на момент редактирования записи">
+                                Дата утверждения протокола / биржевой сделаки
+                                <input type="date" id="in7"></input>
+                            </p></br>
+                        </div>
+                        <div class="block-1">
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br><p data-tooltip="Проверьте, все ли обязательные поля заполненны!">
+                                <button onclick="CheckDate_Update()">Редактировать</button>
+                            </p></br>
+                        </div>
+                    </div>
+                    <div class="left">
+                        <h4 align="center">Не обязательные поля ввода</h4>
+                        <div class="block-1">
+                            Рег. номер приглашени
+                            <input id="in3"></input>
+                        </div>
+                        <div class="block-1">
+                            Кол-во участн-в, соотв-х заявл. треб-ям
+                            <input id="in6"></input>
+                        </div>
+                        <div class="block-1">
+                            Результат закупки
+                            <select id="in8">
+                                <option></option>
+                                @foreach (var res in ViewBag.Result)
+                                {
+                                <option>@res</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="block-1">
+                            Дата закулючения договора по сроку
+                            <input type="date" id="in9" disabled="true"></input>
+                        </div>
+                        <div class="block-1">
+                            Дата заключения договора продление
+                            <input type="date" id="in10"></input>
+                        </div>
+                        <div class="block-1">
+                            Дата заключения договора факт
+                            <input type="date" id="in11"></inupt>
+                        </div>
+                        <div class="block-1">
+                            Номер договора
+                            <input id="in12"></input>
+                        </div>
+                        <div class="block-1">
+                            Дата размещения результата на сайте по сроку
+                            <input type="date" id="in13" disabled="true"></input>
+                        </div>
+                        <div class="block-1">
+                            Дата размещения результа на сайте факт
+                            <input type="date" id="in14"></input>
+                        </div>
+                        <div class="block-1">
+                            Поставщик
+                            <input id="in15"></input>
+                        </div>
+                        <div class="block-1">
+                            <p data-tooltip="Введите название станы, пример: Беларусь, или выберите из списка.">
+                                Страна регистрации поставщика
+                                <input id="in16" list="cherecter"></input>
+                                <datalist id="cherecter">
+                                    @foreach (var country in ViewBag.Country)
+                                    {
+                                    <option>@country</option>
+                                    }
+                                </datalist>
+                            </p>
+                        </div>
+                        <div class="block-1">
+                            Стоимость
+                            <input id="in17"></input>
+                        </div>
+                        <div class="block-1">
+                            Валюта
+                            <select id="in18">
+                                <option></option>
+                                @foreach (var cur in ViewBag.Currency)
+                                {
+                                <option>@cur</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="block-1">
+                            Стоимость товара в бел.руб. без НДС
+                            <input id="in19"></input>
+                        </div>
+                        <div class="block-1">
+                            Статус
+                            <select id="in20">
+                                <option></option>
+                                @foreach (var win in ViewBag.WinStatus)
+                                {
+                                <option>@win</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="block-1">
+                            Объем закупки
+                            <input id="in21"></input>
+                        </div>
+                        <div class="block-1">
+                            Ед. изм.
+                            <input id="in22"></input>
+                        </div>
+                        <div class="block-1">
+                            Цена за ед. товара в валюте договора
+                            <input id="in23"></input>
+                        </div>
+                        <div class="block-1">
+                            Условия поставки
+                            <input id="in24"></input>
+                        </div>
+                        <div class="block-1">
+                            Основные технические хар-ки
+                            <input id="in25"></input>
+                        </div>
+                        <div class="block-1">
+                            <p data-tooltip="Введите название станы, пример: Беларусь, или выберите из списка.">
+                                Страна происхождения товара
+                                <input id="in26" list="character"></input>
+                                <datalist id="character">
+                                    @foreach (var country in ViewBag.Country)
+                                    {
+                                    <option>@country</option>
+                                    }
+                                </datalist>
+                            </p>
+                        </div>
+                        <div class="block-1">
+                            Производитель продукции
+                            <input id="in27"></input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @(Html.EJS().Grid<T_ProcurementInformation>
+                                                                    ("Grid")
+                                                                    .DataSource(dataManager =>
+                                                                    {
+                                                                        dataManager
+                                                                        .Url("/Home/Datasource")
+                                                                        .CrudUrl("/Home/CrudFunc")
+                                                                        .Adaptor("UrlAdaptor");
+                                                                    })
+                                                                    .AllowPaging()
+                                                                    .ToolbarClick("toolbarClick")
+                                                                    .Columns(col =>
+                                                                    {
+                                                                        col.Field("ID").HeaderText("№ записи").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("115").AllowEditing(false).ValidationRules(new { required = false }).Add();
+                                                                        col.Field("ID").IsPrimaryKey(true).Visible(false).Add();
+                                                                        col.Field("NAME_PR").HeaderText("Наименование процедуры закупки").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("190").ValidationRules(new { required = true }).Add();
+                                                                        col.Field("ID_SUBJECTPURCHASE").HeaderText("Предмет закупки").ForeignKeyField("ID").ForeignKeyValue("NAME").ValidationRules(new { required = true }).DataSource((IEnumerable<S_SubjectPurchase>
+                                                                            )ViewBag.SubjectPurchaseList).TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("135").Add();
+                                                                        col.Field("INVITE_NUN").HeaderText("Рег. номер приглашения").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("140").ValidationRules(new { required = false }).Add();
+                                                                        col.Field("FIO_ISP").HeaderText("Ответственный исполнитель").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("150").ValidationRules(new { required = true }).Add();
+                                                                        col.Field("ID_SUBDIVISION").HeaderText("Структурное подразделение").ForeignKeyField("ID").ForeignKeyValue("NAME").ValidationRules(new { required = true }).DataSource((IEnumerable<S_SubDivision>
+                                                                            )ViewBag.SubDivisionList).TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("200").Add();
+                                                                        col.Field("ID_LEGISLATION").HeaderText("Процедура закупки").ForeignKeyField("ID").ForeignKeyValue("NAME").ValidationRules(new { required = true }).DataSource((IEnumerable<S_Legislation>
+                                                                            )ViewBag.LegislationList).TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("200").Add();
+                                                                        col.Field("PARTICIPANT__VALUE").HeaderText("Кол-во участн-в, соотв-х заявл. треб-ям").Type("number").Format("N").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("120").ValidationRules(new { required = false }).Add();
+                                                                        col.Field("PR_APPROVAL_DATE").HeaderText("Дата утверждения протокола / биржевой сделки").EditType("datepickeredit").Edit(new { @params = new { format = "dd.MM.yyyy" } }).Format("dd.MM.yyyy").Type("dateTime").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("135").DefaultValue(DateTime.Now).ValidationRules(new { required = true }).Add();
+                                                                        col.Field("ID_RESULT").HeaderText("Результат закупки").ForeignKeyField("ID").ForeignKeyValue("NAME").ValidationRules(new { required = false }).DataSource((IEnumerable<S_Result>
+                                                                            )ViewBag.ResultList).TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("120").Add();
+                                                                        col.HeaderText("Дата заключения договора").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center)
+                                                                        .Columns(new List<Syncfusion.EJ2.Grids.GridColumn>
+                                                                            ()
+                                                                            {
+                                                                new Syncfusion.EJ2.Grids.GridColumn
+                                                                {
+                                                                    Field = "CONTRACT_DATE_TERM",
+                                                                    HeaderText = "по сроку",
+                                                                    EditType = "datepickeredit",
+                                                                    Edit = new {@params = new { format = "dd.MM.yyyy" } },
+                                                                    Format = "dd.MM.yyyy",
+                                                                    Type = "dateTime",
+                                                                    TextAlign=Syncfusion.EJ2.Grids.TextAlign.Center,
+                                                                    Width = "115",
+                                                                    AllowEditing = false,
+                                                                    ValidationRules = new { required = false }
+                                                                },
+                                                                new Syncfusion.EJ2.Grids.GridColumn
+                                                                {
+                                                                    Field = "CONTRACT_DATE_PROL",
+                                                                    HeaderText = "продление",
+                                                                    EditType = "datepickeredit",
+                                                                    Edit = new {@params = new { format = "dd.MM.yyyy" } },
+                                                                    Format = "dd.MM.yyyy",
+                                                                    Type = "dateTime",
+                                                                    TextAlign=Syncfusion.EJ2.Grids.TextAlign.Center,
+                                                                    Width = "120",
+                                                                    ValidationRules = new { required = false }
+                                                                },
+                                                                new Syncfusion.EJ2.Grids.GridColumn
+                                                                {
+                                                                    Field = "CONTRACT_DATE_FACT",
+                                                                    HeaderText = "факт",
+                                                                    EditType = "datepickeredit",
+                                                                    Edit = new {@params = new { format = "dd.MM.yyyy" } },
+                                                                    Format = "dd.MM.yyyy",
+                                                                    Type = "dateTime",
+                                                                    TextAlign=Syncfusion.EJ2.Grids.TextAlign.Center,
+                                                                    Width = "115",
+                                                                    ValidationRules = new { required = false }
+                                                                },
+                                                                new Syncfusion.EJ2.Grids.GridColumn
+                                                                {
+                                                                    Field = "CONTRACT_NUMBER",
+                                                                    HeaderText = "номер договора",
+                                                                    TextAlign=Syncfusion.EJ2.Grids.TextAlign.Center,
+                                                                    Width = "115",
+                                                                    ValidationRules = new { required = false }
+                                                                }})
+                                                                            .Add();
+                                                                        col.HeaderText("Дата размещения результата на сайте").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center)
+                                                                        .Columns(new List<Syncfusion.EJ2.Grids.GridColumn>
+                                                                            ()
+                                                                            {
+                                                                new Syncfusion.EJ2.Grids.GridColumn
+                                                                {
+                                                                    Field = "RESULT_DATE_TERM",
+                                                                    HeaderText = "по сроку",
+                                                                    EditType = "datepickeredit",
+                                                                    Edit = new {@params = new { format = "dd.MM.yyyy" } },
+                                                                    Format = "dd.MM.yyyy",
+                                                                    Type = "dateTime",
+                                                                    TextAlign=Syncfusion.EJ2.Grids.TextAlign.Center,
+                                                                    Width = "115",
+                                                                    AllowEditing = false,
+                                                                    ValidationRules = new { required = false }
+                                                                },
+                                                                new Syncfusion.EJ2.Grids.GridColumn
+                                                                {
+                                                                    Field = "RESULT_DATE_FACT",
+                                                                    HeaderText = "факт",
+                                                                    EditType = "datepickeredit",
+                                                                    Edit = new {@params = new { format = "dd.MM.yyyy" } },
+                                                                    Format = "dd.MM.yyyy",
+                                                                    Type = "dateTime",
+                                                                    TextAlign =Syncfusion.EJ2.Grids.TextAlign.Center,
+                                                                    Width = "115",
+                                                                    ValidationRules = new { required = false }
+                                                                }
+                                                                            })
+                                                                            .Add();
+                                                                        col.HeaderText("Сведения о поставщике").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center)
+                                                                        .Columns(new List<Syncfusion.EJ2.Grids.GridColumn>
+                                                                            ()
+                                                                            {
+                                                                new Syncfusion.EJ2.Grids.GridColumn
+                                                                {
+                                                                    Field = "WIN_NAME",
+                                                                    HeaderText = "Поставщик",
+                                                                    TextAlign =Syncfusion.EJ2.Grids.TextAlign.Center,
+                                                                    Width = "140",
+                                                                    ValidationRules = new { required = false }
+                                                                },
+                                                                new Syncfusion.EJ2.Grids.GridColumn
+                                                                {
+                                                                    Field = "ID_COUNTRY",
+                                                                    HeaderText = "Страна регистрации поставщика",
+                                                                    ForeignKeyField = "ID",
+                                                                    ForeignKeyValue = "NAME",
+                                                                    ValidationRules = new { required = false },
+                                                                    DataSource = ((IEnumerable<S_Country>
+                                                                    )ViewBag.CountryList),
+                                                                    TextAlign =Syncfusion.EJ2.Grids.TextAlign.Center,
+                                                                    Width = "150"
+                                                                },
+                                                                new Syncfusion.EJ2.Grids.GridColumn
+                                                                {
+                                                                    Field = "WIN_VALUE",
+                                                                    HeaderText = "Стоимость",
+                                                                    Type = "number",
+                                                                    Format = "N2",
+                                                                    TextAlign =Syncfusion.EJ2.Grids.TextAlign.Center,
+                                                                    Width = "135",
+                                                                    ValidationRules = new { required = false }
+                                                                },
+                                                                new Syncfusion.EJ2.Grids.GridColumn
+                                                                {
+                                                                    Field = "ID_CURRENCY",
+                                                                    HeaderText = "Валюта",
+                                                                    ForeignKeyField = "ID",
+                                                                    ForeignKeyValue = "LETTER_CODE",
+                                                                    ValidationRules = new { required = false },
+                                                                    DataSource = ((IEnumerable<S_Currency>
+                                                                    )ViewBag.CurrencyList),
+                                                                    TextAlign =Syncfusion.EJ2.Grids.TextAlign.Center,
+                                                                    Width = "105"
+                                                                },
+                                                                new Syncfusion.EJ2.Grids.GridColumn
+                                                                {
+                                                                    Field = "WIN_VALUE_BYN",
+                                                                    HeaderText = "Стоимость товара в бел.руб. без НДС",
+                                                                    Type = "number",
+                                                                    Format = "N2",
+                                                                    TextAlign =Syncfusion.EJ2.Grids.TextAlign.Center,
+                                                                    Width = "135",
+                                                                    ValidationRules = new { required = false }
+                                                                },
+                                                                new Syncfusion.EJ2.Grids.GridColumn
+                                                                {
+                                                                    Field = "ID_WINSTATUS",
+                                                                    HeaderText = "Статус",
+                                                                    ForeignKeyField = "ID",
+                                                                    ForeignKeyValue = "NAME",
+                                                                    ValidationRules = new { required = false },
+                                                                    DataSource = ((IEnumerable<S_WinStatus>
+                                                                    )ViewBag.WinStatusList),
+                                                                    TextAlign =Syncfusion.EJ2.Grids.TextAlign.Center,
+                                                                    Width = "140"
+                                                                },
+                                                                new Syncfusion.EJ2.Grids.GridColumn
+                                                                {
+                                                                    Field = "PURCHASE_VOLUME",
+                                                                    HeaderText = "Объем закупки",
+                                                                    TextAlign =Syncfusion.EJ2.Grids.TextAlign.Center,
+                                                                    Width = "140",
+                                                                    ValidationRules = new { required = false }
+                                                                },
+                                                                new Syncfusion.EJ2.Grids.GridColumn
+                                                                {
+                                                                    Field = "VOLUME_UNITS",
+                                                                    HeaderText = "Ед.изм.",
+                                                                    TextAlign =Syncfusion.EJ2.Grids.TextAlign.Center,
+                                                                    Width = "100",
+                                                                    ValidationRules = new { required = false }
+                                                                },
+                                                                new Syncfusion.EJ2.Grids.GridColumn
+                                                                {
+                                                                    Field = "PRICE_PER_ITEM",
+                                                                    HeaderText = "Цена за ед.товара в валюте договора",
+                                                                    TextAlign =Syncfusion.EJ2.Grids.TextAlign.Center,
+                                                                    Width = "140",
+                                                                    ValidationRules = new { required = false }
+                                                                },
+                                                                new Syncfusion.EJ2.Grids.GridColumn
+                                                                {
+                                                                    Field = "DELIVERY_COND",
+                                                                    HeaderText = "Условия поставки",
+                                                                    TextAlign =Syncfusion.EJ2.Grids.TextAlign.Center,
+                                                                    Width = "140",
+                                                                    ValidationRules = new { required = false }
+                                                                },
+                                                                new Syncfusion.EJ2.Grids.GridColumn
+                                                                {
+                                                                    Field = "MAIN_TEC_SPECS",
+                                                                    HeaderText = "Основные технические хар-ки",
+                                                                    TextAlign =Syncfusion.EJ2.Grids.TextAlign.Center,
+                                                                    Width = "300",
+                                                                    ValidationRules = new { required = false }
+                                                                },
+                                                                new Syncfusion.EJ2.Grids.GridColumn
+                                                                {
+                                                                    Field = "ID_COUNTRY_ORIGIN",
+                                                                    HeaderText = "Страна происхождения товара",
+                                                                    ForeignKeyField = "ID",
+                                                                    ForeignKeyValue = "NAME",
+                                                                    ValidationRules = new { required = false },
+                                                                    DataSource = ((IEnumerable<S_Country>
+                                                                    )ViewBag.CountryList),
+                                                                    TextAlign =Syncfusion.EJ2.Grids.TextAlign.Center,
+                                                                    Width = "150"
+                                                                },
+                                                                new Syncfusion.EJ2.Grids.GridColumn
+                                                                {
+                                                                    Field = "MANUFACTURER",
+                                                                    HeaderText = "Производитель продукции",
+                                                                    TextAlign =Syncfusion.EJ2.Grids.TextAlign.Center,
+                                                                    Width = "150",
+                                                                    ValidationRules = new { required = false }
+                                                                }
+                                                                                    })
+                                                                                    .Add();
+
+                                                                    })
+                                                                                                .GridLines(Syncfusion.EJ2.Grids.GridLine.Both)
+                                                                                                .AllowResizing(true)
+                                                                                                .AllowPaging(false)
+                                                                                                .PageSettings(page => page.PageSize(10))
+                                                                                                .AllowSorting(true)
+                                                                                                .AllowGrouping(true)
+                                                                                                .AllowFiltering(true)
+                                                                                                .FilterSettings(filter => { filter.Type(Syncfusion.EJ2.Grids.FilterType.CheckBox); })
+                                                                                                .AllowTextWrap()
+                                                                                                .Height("600")
+                                                                                                .EditSettings(edit =>
+                                                                                                {
+                                                                                                    edit.AllowAdding(true)
+                                                                                            .AllowEditing(true)
+                                                                                            .AllowDeleting(true)
+                                                                                            .Mode(Syncfusion.EJ2.Grids.EditMode.Normal)
+                                                                                            .ShowDeleteConfirmDialog(true);
+                                                                                                })
+                                                                                                .Toolbar(new List<string>
+                                                                                                    () { "Add", "Edit", "Delete", "Update", "Cancel", "ExcelExport", "www.icetrade.by", "Search", "Создание отчета", "Добавить в окне", "Редактировать в окне", "Импорт из Excel" })
+                                                                                                    .SearchSettings(search => { search.Fields(new string[] { "NAME_PR" }).Operator("contains").IgnoreCase(true); })
+                                                                                                    .AllowExcelExport()
+                                                                                                    .QueryCellInfo("checkDate")
+                                                                                                    .Render()
+    )
+</div>
+
+<script>
+    function Refresh_Add() {
+        document.getElementById("a1").value = "";
+        document.getElementById("a2").value = "Работы (услуги)";
+        document.getElementById("a3").value = "";
+        document.getElementById("a4").value = "";
+        document.getElementById("a5").value = "Биржа";
+        document.getElementById("a6").value = "";
+        document.getElementById("a7").value = "";
+        document.getElementById("a8").value = "";
+        document.getElementById("a9").value = "";
+        document.getElementById("a10").value = "";
+        document.getElementById("a11").value = "";
+        document.getElementById("a12").value = "";
+        document.getElementById("a13").value = "";
+        document.getElementById("a14").value = "";
+        document.getElementById("a15").value = "";
+        document.getElementById("a16").value = "";
+        document.getElementById("a17").value = "";
+        document.getElementById("a18").value = "";
+        document.getElementById("a19").value = "";
+        document.getElementById("a20").value = "";
+        document.getElementById("a21").value = "";
+        document.getElementById("a22").value = "";
+        document.getElementById("a23").value = "";
+        document.getElementById("a24").value = "";
+        document.getElementById("a25").value = "";
+        document.getElementById("a26").value = "";
+        document.getElementById("a27").value = "";
+        document.getElementById("a27").value = "Аппарат управления";
+        document.getElementById("Modal_add").style.display = "none";
+        var gridObj = document.getElementById("Grid").ej2_instances[0];
+        gridObj.refresh();
+    }
+</script>
+
+<script>
+    function Refresh_Edit() {
+        document.getElementById("id").value = "";
+        document.getElementById("b1").disabled = false;
+        document.getElementById("b2").disabled = true;
+        document.getElementById("id").disabled = false;
+        document.getElementById("hid_dv").style.display = "none";
+        document.getElementById("Modal_Update").style.display = "none";
+    }
+</script>
+
+<script>
+    function Edit_button() {
+        result = confirm('Вы действительно хотите изменить № строки?');
+        if (result == true) {
+            document.getElementById("b1").disabled = false;
+            document.getElementById("b2").disabled = true;
+            document.getElementById("id").disabled = false;
+            document.getElementById("hid_dv").style.display = "none";
+        }
+    }
+</script>
+
+<script>
+    function CheckDate_Update() {
+        var country1 = document.getElementById("in16").value;
+        var country2 = document.getElementById("in26").value;
+        var Data = { 'count1': country1, 'count2': country2 };
+        $.ajax({
+            url: "/Home/Country_Creater",
+            type: "POST",
+            contentType: "application/json;charset=UTF-8",
+            data: JSON.stringify(Data),
+            dataType: "html",
+            success: function (result) {
+                if (result == 1) {
+                    UpdateLine();
+                }
+                else if (result == 2) {
+                    const vote = confirm("Введенной страны нет в списке, желаете добавить запись без страны?")
+                    if (vote == true) {
+                        UpdateLine();
+                    }
+                }
+            },
+            error: function () { alert("Что-то пошло не так"); }
+        });
+    }
+</script>
+
+<script>
+    function UpdateLine() {
+        var id = document.getElementById("id").value;
+        var line1 = document.getElementById("in1").value;
+        var line2 = document.getElementById("in2").value;
+        var line3 = document.getElementById("in3").value;
+        var line4 = document.getElementById("in4").value;
+        var line5 = document.getElementById("in5").value;
+        var line6 = document.getElementById("in6").value;
+        var line7 = document.getElementById("in7").value;
+        var line8 = document.getElementById("in8").value;
+        var line9 = document.getElementById("in9").value;
+        var line10 = document.getElementById("in10").value;
+        var line11 = document.getElementById("in11").value;
+        var line12 = document.getElementById("in12").value;
+        var line13 = document.getElementById("in13").value;
+        var line14 = document.getElementById("in14").value;
+        var line15 = document.getElementById("in15").value;
+        var line16 = document.getElementById("in16").value;
+        var line17 = document.getElementById("in17").value;
+        var line18 = document.getElementById("in18").value;
+        var line19 = document.getElementById("in19").value;
+        var line20 = document.getElementById("in20").value;
+        var line21 = document.getElementById("in21").value;
+        var line22 = document.getElementById("in22").value;
+        var line23 = document.getElementById("in23").value;
+        var line24 = document.getElementById("in24").value;
+        var line25 = document.getElementById("in25").value;
+        var line26 = document.getElementById("in26").value;
+        var line27 = document.getElementById("in27").value;
+        var line28 = document.getElementById("in28").value;
+        if (line1 != '' && line2 != '' && line4 != '' && line5 != '') {
+            var DataObj = { 'ID_line': id, 'ln1': line1, 'ln2': line2, 'ln3': line3, 'ln4': line4, 'ln5': line5, 'ln6': line6, 'ln7': line7, 'ln8': line8, 'ln9': line9, 'ln10': line10, 'ln10': line11, 'ln11': line11, 'ln12': line12, 'ln13': line13, 'ln14': line14, 'ln15': line15, 'ln16': line16, 'ln17': line17, 'ln18': line18, 'ln19': line19, 'ln20': line20, 'ln21': line21, 'ln22': line22, 'ln23': line23, 'ln24': line24, 'ln25': line25, 'ln26': line26, 'ln27': line27, 'ln28': line28 };
+            $.ajax({
+                url: "/Home/UpdateLine",
+                type: "POST",
+                contentType: "application/json;charset=UTF-8",
+                data: JSON.stringify(DataObj),
+                dataType: "html",
+                success: function (result) {
+                    alert(result);
+                    var gridObj = document.getElementById("Grid").ej2_instances[0];
+                    gridObj.refresh();
+                    Refresh_Edit();
+                },
+                error: function () { alert("Что-то пошло не так"); }
+            })
+        }
+
+    }
+</script>
+
+<script>
+    function EnterFromNumber() {
+        var id = document.getElementById("id").value
+        var DataObj = { 'id_line': id };
+        $.ajax({
+            url: "/Home/EnterLenght",
+            type: "POST",
+            contentType: "application/json;charset=UTF-8",
+            data: JSON.stringify(DataObj),
+            dataType: "html",
+            success: function (result) {
+                if (result != 1) {
+                    let arr = result.split('","');
+
+                    document.getElementById("in1").value = arr[0].slice(2,);
+                    document.getElementById("in2").value = arr[1];
+                    document.getElementById("in3").value = arr[2];
+                    document.getElementById("in4").value = arr[3];
+                    document.getElementById("in5").value = arr[4];
+                    document.getElementById("in6").value = arr[5];
+                    document.getElementById("in7").valueAsDate = new Date(arr[6]);
+                    document.getElementById("in8").value = arr[7];
+                    document.getElementById("in9").valueAsDate = new Date(arr[8]);
+                    document.getElementById("in10").valueAsDate = new Date(arr[9]);
+                    document.getElementById("in11").valueAsDate = new Date(arr[10]);
+                    document.getElementById("in12").value = arr[11];
+                    document.getElementById("in13").valueAsDate = new Date(arr[12]);
+                    document.getElementById("in14").valueAsDate = new Date(arr[13]);
+                    document.getElementById("in15").value = arr[14].replaceAll('\\', '');
+                    document.getElementById("in16").value = arr[15];
+                    document.getElementById("in17").value = arr[16];
+                    document.getElementById("in18").value = arr[17];
+                    document.getElementById("in19").value = arr[18];
+                    document.getElementById("in20").value = arr[19];
+                    document.getElementById("in21").value = arr[20];
+                    document.getElementById("in22").value = arr[21];
+                    document.getElementById("in23").value = arr[22];
+                    document.getElementById("in24").value = arr[23];
+                    document.getElementById("in25").value = arr[24];
+                    document.getElementById("in26").value = arr[25];
+                    document.getElementById("in27").value = arr[26];
+                    document.getElementById("in28").value = (arr[27].slice(0, -2)).replaceAll('\\', '');
+                    document.getElementById("hid_dv").style.display = "block";
+                    document.getElementById("b1").disabled = true;
+                    document.getElementById("b2").disabled = false;
+                    document.getElementById("id").disabled = true;
+                }
+                else {
+                    alert(" № записи не существует!");
+                }
+            },
+            error: function () { alert(" № записи не существует!"); }
+        })
+
+    }
+</script>
+
+<script>
+    function AllInfoReport() {
+        $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("InfoReport", "Home")',
+                    success: function (result) {
+                        alert(result);
+                    },
+                });
+    }
+</script>
+
+<script>
+    function DateReport() {
+        $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("DateCreate", "Home")',
+                    success: function (result) {
+                        insdatacreate.innerText = result;
+                    },
+                });
+    }
+</script>
+
+<script>
+    function check_data() {
+        var sq16 = String(document.getElementById("a16").value);
+        var sq26 = String(document.getElementById("a26").value);
+
+        var Data = { 'count1': sq16, 'count2': sq26 };
+        $.ajax({
+            url: "/Home/Country_Creater",
+            type: "POST",
+            contentType: "application/json;charset=UTF-8",
+            data: JSON.stringify(Data),
+            dataType: "html",
+            success: function (result) {
+                if (result == 1) {
+                    ins();
+                }
+                else if (result == 2) {
+                    const vote = confirm("Введенной страны нет в списке, желаете добавить запись без страны?")
+                    if (vote == true) {
+                        ins();
+                    }
+                }
+            },
+            error: function () { alert("Что-то пошло не так"); }
+        });
+    }
+</script>
+
+<script>
+    function ins() {
+        var sq1 = String(document.getElementById("a1").value);
+        var sq2 = String(document.getElementById("a2").value);
+        var sq3 = String(document.getElementById("a3").value);
+        var sq4 = String(document.getElementById("a4").value);
+        var sq5 = String(document.getElementById("a5").value);
+        var sq6 = String(document.getElementById("a6").value);
+        var sq7 = String(document.getElementById("a7").value);
+        var sq8 = String(document.getElementById("a8").value);
+        var sq9 = String(document.getElementById("a9").value);
+        var sq10 = String(document.getElementById("a10").value);
+        var sq11 = String(document.getElementById("a11").value);
+        var sq12 = String(document.getElementById("a12").value);
+        var sq13 = String(document.getElementById("a13").value);
+        var sq14 = String(document.getElementById("a14").value);
+        var sq15 = String(document.getElementById("a15").value);
+        var sq16 = String(document.getElementById("a16").value);
+        var sq17 = String(document.getElementById("a17").value);
+        var sq18 = String(document.getElementById("a18").value);
+        var sq19 = String(document.getElementById("a19").value);
+        var sq20 = String(document.getElementById("a20").value);
+        var sq21 = String(document.getElementById("a21").value);
+        var sq22 = String(document.getElementById("a22").value);
+        var sq23 = String(document.getElementById("a23").value);
+        var sq24 = String(document.getElementById("a24").value);
+        var sq25 = String(document.getElementById("a25").value);
+        var sq26 = String(document.getElementById("a26").value);
+        var sq27 = String(document.getElementById("a27").value);
+        var sq28 = String(document.getElementById("a28").value);
+        var DataObj = { 'ad1': sq1, 'ad2': sq2, 'ad3': sq3, 'ad4': sq4, 'ad5': sq5, 'ad6': sq6, 'ad7': sq7, 'ad8': sq8, 'ad9': sq9, 'ad10': sq10, 'ad11': sq11, 'ad12': sq12, 'ad13': sq13, 'ad14': sq14, 'ad15': sq15, 'ad16': sq16, 'ad17': sq17, 'ad18': sq18, 'ad19': sq19, 'ad20': sq20, 'ad21': sq21, 'ad22': sq22, 'ad23': sq23, 'ad24': sq24, 'ad25': sq25, 'ad26': sq26, 'ad27': sq27, 'ad28': sq28 };
+        $.ajax({
+            url: "/Home/Ins",
+            type: "POST",
+            contentType: "application/json;charset=UTF-8",
+            data: JSON.stringify(DataObj),
+            dataType: "html",
+            success: function (result) {
+                if (result == 1) {
+                    alert("Запись успешно добавлена в таблицу");
+                    setTimeout(Refresh_Add, 100);
+                }
+                else if (result == 2) {
+                    alert("Не все обязательные поля заполнены");
+                }
+
+            },
+            error: function () { alert("Что-то пошло не так"); }
+        })
+    }
+</script>
+
+<script>
+    function M_V_excel() {
+        document.getElementById("Modal_excel").style.display = "block";
+    }
+</script>
+
+<script>
+    function M_V_add() {
+        document.getElementById("Modal_add").style.display = "block";
+    }
+</script>
+
+<script>
+    function M_V() {
+        document.getElementById("Modal").style.display = "block";
+    }
+</script>
+
+<script>
+    function M_V_Update() {
+        document.getElementById("Modal_Update").style.display = "block";
+    }
+</script>
+
+<script>
+    function toolbarClick(args) {
+        var gridObj = document.getElementById("Grid").ej2_instances[0];
+        if (args.item.id === 'Grid_excelexport') {
+            gridObj.excelExport();
+        }
+
+        if (args.item.id === 'Grid_Импорт из Excel') {
+            M_V_excel();
+        }
+
+        if (args.item.id === 'Grid_Редактировать в окне') {
+            M_V_Update();
+        }
+
+        if (args.item.id === 'Grid_Создание отчета') {
+            DateReport();
+            M_V();
+        }
+        if (args.item.id === 'Grid_Добавить в окне') {
+            M_V_add();
+        }
+        if (args.item.id === 'Grid_www.icetrade.by') {
+            var invnum = "";
+            var rowIndex = gridObj.selectedRowIndex;
+            if (rowIndex > -1) {
+                var rowObj = gridObj.getRowObjectFromUID(gridObj.getSelectedRows()[0].getAttribute('data-uid'));
+                invnum = rowObj.data.INVITE_NUN;
+            };
+
+            var url = "http://www.icetrade.by/tenders/all/view/" + invnum.substr(5);
+            var win = window.open(url, '_blank');
+            win.focus();
+        }
+
+        document.getElementById('Grid_edit').onclick = setTimeout(edit_click, 100);
+
+        function edit_click(clicked) {
+            var datepickers = document.getElementsByClassName('e-datepicker');
+            for (var i = 0; i < datepickers.length; i++) {
+                var datepicker = datepickers[i].ej2_instances[0];
+                datepicker.locale = 'ru';
+                datepicker.firstDayOfWeek = 1;
+            }
+        }
+    }
+</script>
+
+<script>
+    function checkDate(args) {
+
+        if (args.column.field === 'CONTRACT_DATE_FACT') {
+            if (!args.data['CONTRACT_DATE_FACT']) {
+                args.cell.classList.add('less-or-null-term-date');
+            } else if (args.data['CONTRACT_DATE_TERM']) {
+                if (args.data['CONTRACT_DATE_FACT'] > args.data['CONTRACT_DATE_TERM']) {
+                    args.cell.classList.add('less-or-null-term-date');
+                }
+            }
+        }
+
+        if (args.column.field === 'RESULT_DATE_FACT') {
+            if (!args.data['RESULT_DATE_FACT']) {
+                args.cell.classList.add('less-or-null-term-date');
+            } else if (args.data['RESULT_DATE_TERM']) {
+                if (args.data['RESULT_DATE_FACT'] > args.data['RESULT_DATE_TERM']) {
+                    args.cell.classList.add('less-or-null-term-date');
+                }
+            }
+        }
+
+        if (args.column.field === 'ID_RESULT') {
+            if (args.data['ID_RESULT'] == '1') {
+                args.cell.classList.add('id-result-success');
+            }
+            else if (args.data['ID_RESULT'] == '2') {
+                args.cell.classList.add('id-result-fail');
+            }
+        }
+
+        if (args.column.field === 'MAIN_TEC_SPECS') {
+            args.cell.classList.add('e-attrs');
+        }
+    }
+</script>
+
+<script>
+    function Create_Report() {
+        var data1 = document.getElementById("dateS").value;
+        var data2 = document.getElementById("dateF").value;
+        if (data1 == '') {
+            data1 = new Date(1940, 1, 0, 1, 0, 0, 0, 0);
+        }
+        if (data2 == '') {
+            data2 = new Date(1940, 1, 0, 1, 0, 0, 0, 0);
+        }
+        var DataObj = { 'dateS': data1, 'dateF': data2 };
+        alert("Ожидайте, это может занять некоторое время");
+        document.getElementById("Modal").style.display = "none";
+        document.getElementById("dateS").value = "";
+        document.getElementById("dateF").value = "";
+        $.ajax({
+            url: "/Home/Export",
+            type: "POST",
+            contentType: "application/json;charset=UTF-8",
+            data: JSON.stringify(DataObj),
+            dataType: "html",
+            success: function (r_download) {
+                location = '/images/Report.xlsx';
+                alert(r_download);
+                setTimeout(DateReport, 1000);
+            },
+        })
+    }
+</script>
+
+<script>
+    function onChange(args) {
+        var gridObj = document.getElementById("Grid").ej2_instances[0];
+        var query = new ej.data.Query();
+        if (args.value != null) {
+            query.addParams('dateFrom', args.startDate);
+            query.addParams('dateTo', args.endDate);
+        }
+        gridObj.query = query;
+        gridObj.dataSource = new ej.data.DataManager({
+            url: "/Home/Datasource",
+            crudUrl: "/Home/CrudFunc",
+            adaptor: new ej.data.UrlAdaptor()
+
+        });
+        gridObj.refreshContenet();
+    }
+</script>
+
+<style>
+    .less-or-null-term-date {
+        background-color: #ffd7cc;
+        color: #e60000 !important;
+    }
+
+    .id-result-success {
+        background-color: #ccffcc;
+        color: #00cc00 !important;
+    }
+
+    .id-result-fail {
+        background-color: #ffd7cc;
+        color: #e60000 !important;
+    }
+
+    .e-edit-dialog {
+        min-width: 500px !important;
+    }
+
+    .e-attrs {
+        font-size: 6px;
+    }
+
+    #Modal_add {
+        z-index: 10;
+        position: absolute;
+        display: none;
+        width: 1600px;
+        height: 830px;
+        top: 8%;
+        left: 10%;
+    }
+
+    #Modal_excel {
+        z-index: 10;
+        position: absolute;
+        display: none;
+        width: 500px;
+        height: 315px;
+        top: 10%;
+        left: 35%;
+    }
+
+    #Modal {
+        z-index: 10;
+        position: absolute;
+        display: none;
+        width: 500px;
+        height: 300px;
+        top: 10%;
+        left: 35%;
+    }
+
+    #Modal_Update {
+        z-index: 10;
+        position: absolute;
+        display: none;
+        width: 1600px;
+        height: 860px;
+        top: 7%;
+        left: 10%;
+    }
+
+    .close {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        width: 55px;
+        height: 55px;
+        cursor: pointer;
+        border: 4px solid #FF0000;
+        border-radius: 50%;
+    }
+
+        .close:before,
+        .close:after {
+            content: "";
+            position: absolute;
+            top: 21px;
+            left: 10px;
+            width: 26px;
+            height: 4px;
+            background: #FF0000;
+        }
+
+        .close:before {
+            webkit-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+
+        .close:after {
+            webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+        }
+
+    [data-tooltip] {
+        position: relative;
+    }
+
+        [data-tooltip]::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            width: 470px;
+            left: 0;
+            top: 0;
+            background: #3989c9;
+            color: #fff;
+            padding: 0.5em;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            pointer-events: none;
+            opacity: 0;
+            transition: 1s;
+        }
+
+        [data-tooltip]:hover::after {
+            opacity: 1;
+            top: 2em;
+        }
+
+    #redast {
+        color: red;
+    }
+
+    .container {
+        width: 1500px;
+        height: 740px;
+        display: flex;
+    }
+
+    .block-1 {
+        margin: 5px;
+    }
+
+    .left {
+        margin: 5px;
+        width: 50%;
+    }
+
+    .right {
+        display: flex;
+        flex-direction: column;
+        margin: 5px;
+        width: 50%;
+    }
+
+    .container-buttons {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .select {
+        display: inline-block;
+        width: 100px;
+        max-width: 100px;
+        overflow: hidden;
+        padding: 2px 4px;
+        box-sizing: border-box;
+        margin: 5px;
+        cursor: pointer;
+    }
+
+    .hid_div {
+        display: none;
+    }
+</style>

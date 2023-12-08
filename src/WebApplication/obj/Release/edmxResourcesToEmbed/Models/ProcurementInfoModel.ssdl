@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище ProcurementInfoModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="S_Currency">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LETTER_CODE" Type="nvarchar(max)" />
+    <Property Name="NAME" Type="nvarchar(max)" />
+    <Property Name="FLAG" Type="bit" />
+  </EntityType>
+  <EntityType Name="S_Legislation">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NAME" Type="nvarchar(max)" />
+    <Property Name="FLAG" Type="bit" />
+  </EntityType>
+  <EntityType Name="S_Result">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NAME" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="S_WinStatus">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NAME" Type="nvarchar(max)" />
+    <Property Name="FLAG" Type="bit" />
+  </EntityType>
+  <EntityType Name="T_ProcurementInformation">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NAME_PR" Type="nvarchar(max)" />
+    <Property Name="ID_LEGISLATION" Type="int" />
+    <Property Name="PR_APPROVAL_DATE" Type="date" />
+    <Property Name="ID_RESULT" Type="int" />
+    <Property Name="CONTRACT_DATE_TERM" Type="date" />
+    <Property Name="CONTRACT_DATE_FACT" Type="date" />
+    <Property Name="RESULT_DATE_TERM" Type="date" />
+    <Property Name="RESULT_DATE_FACT" Type="date" />
+    <Property Name="WIN_NAME" Type="nvarchar(max)" />
+    <Property Name="WIN_VALUE" Type="decimal" Precision="30" Scale="2" />
+    <Property Name="ID_WINSTATUS" Type="int" />
+    <Property Name="KRO_DATE_TERM" Type="date" />
+    <Property Name="KRO_DATE_FACT" Type="date" />
+    <Property Name="DATE_ACTIVE" Type="datetime" />
+    <Property Name="DATE_DEACT" Type="datetime" />
+    <Property Name="FLAG" Type="bit" />
+    <Property Name="FIO_ISP" Type="nvarchar(max)" />
+    <Property Name="INVITE_NUN" Type="nvarchar(max)" />
+    <Property Name="ID_CURRENCY" Type="int" />
+  </EntityType>
+  <Association Name="FK_ProcurementInfo_Diagram_S_Legislation">
+    <End Role="S_Legislation" Type="Self.S_Legislation" Multiplicity="0..1" />
+    <End Role="T_ProcurementInformation" Type="Self.T_ProcurementInformation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="S_Legislation">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="T_ProcurementInformation">
+        <PropertyRef Name="ID_LEGISLATION" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProcurementInfo_Diagram_S_Result">
+    <End Role="S_Result" Type="Self.S_Result" Multiplicity="0..1" />
+    <End Role="T_ProcurementInformation" Type="Self.T_ProcurementInformation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="S_Result">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="T_ProcurementInformation">
+        <PropertyRef Name="ID_RESULT" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProcurementInfo_Diagram_S_WinStatus">
+    <End Role="S_WinStatus" Type="Self.S_WinStatus" Multiplicity="0..1" />
+    <End Role="T_ProcurementInformation" Type="Self.T_ProcurementInformation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="S_WinStatus">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="T_ProcurementInformation">
+        <PropertyRef Name="ID_WINSTATUS" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_T_ProcurementInformation_S_Currency">
+    <End Role="S_Currency" Type="Self.S_Currency" Multiplicity="0..1" />
+    <End Role="T_ProcurementInformation" Type="Self.T_ProcurementInformation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="S_Currency">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="T_ProcurementInformation">
+        <PropertyRef Name="ID_CURRENCY" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище ProcurementInfoModelContainer">
+    <EntitySet Name="S_Currency" EntityType="Self.S_Currency" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="S_Legislation" EntityType="Self.S_Legislation" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="S_Result" EntityType="Self.S_Result" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="S_WinStatus" EntityType="Self.S_WinStatus" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_ProcurementInformation" EntityType="Self.T_ProcurementInformation" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_ProcurementInfo_Diagram_S_Legislation" Association="Self.FK_ProcurementInfo_Diagram_S_Legislation">
+      <End Role="S_Legislation" EntitySet="S_Legislation" />
+      <End Role="T_ProcurementInformation" EntitySet="T_ProcurementInformation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProcurementInfo_Diagram_S_Result" Association="Self.FK_ProcurementInfo_Diagram_S_Result">
+      <End Role="S_Result" EntitySet="S_Result" />
+      <End Role="T_ProcurementInformation" EntitySet="T_ProcurementInformation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProcurementInfo_Diagram_S_WinStatus" Association="Self.FK_ProcurementInfo_Diagram_S_WinStatus">
+      <End Role="S_WinStatus" EntitySet="S_WinStatus" />
+      <End Role="T_ProcurementInformation" EntitySet="T_ProcurementInformation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_T_ProcurementInformation_S_Currency" Association="Self.FK_T_ProcurementInformation_S_Currency">
+      <End Role="S_Currency" EntitySet="S_Currency" />
+      <End Role="T_ProcurementInformation" EntitySet="T_ProcurementInformation" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

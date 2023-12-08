@@ -1,0 +1,985 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище ProcurementInfoModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="S_Country">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CODE" Type="nvarchar(max)" />
+          <Property Name="NAME" Type="nvarchar(max)" />
+          <Property Name="FULL_NAME" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="S_Currency">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LETTER_CODE" Type="nvarchar(max)" />
+          <Property Name="NAME" Type="nvarchar(max)" />
+          <Property Name="FLAG" Type="bit" />
+        </EntityType>
+        <EntityType Name="S_Legislation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar(max)" />
+          <Property Name="FLAG" Type="bit" />
+        </EntityType>
+        <EntityType Name="S_LegislDo1000">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar(max)" />
+          <Property Name="FLAG" Type="bit" />
+        </EntityType>
+        <EntityType Name="S_Result">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="S_SubDivision">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="S_SubjectPurchase">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar(max)" />
+          <Property Name="FLAG" Type="bit" />
+        </EntityType>
+        <EntityType Name="S_WinStatus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar(max)" />
+          <Property Name="FLAG" Type="bit" />
+        </EntityType>
+        <EntityType Name="S_WinStatusDo1000">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar(max)" />
+          <Property Name="FLAG" Type="bit" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="T_PrInfoDo1000">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NAME_PR" Type="nvarchar(max)" />
+          <Property Name="ID_LEGISLDO1000" Type="int" />
+          <Property Name="CONTRACT_NUMBER" Type="nvarchar(max)" />
+          <Property Name="DATE_CONCLUSION" Type="date" />
+          <Property Name="WIN_NAME" Type="nvarchar(max)" />
+          <Property Name="WIN_VALUE" Type="decimal" Precision="30" Scale="2" />
+          <Property Name="WIN_VALUE_NDE" Type="decimal" Precision="30" Scale="2" />
+          <Property Name="WIN_VALUE_NNDS" Type="decimal" Precision="30" Scale="2" />
+          <Property Name="FIO_ISP" Type="nvarchar(max)" />
+          <Property Name="ID_CURRENCY" Type="int" />
+          <Property Name="DATE_ACTIVE" Type="datetime" />
+          <Property Name="DATE_DEACT" Type="datetime" />
+          <Property Name="FLAG" Type="bit" />
+          <Property Name="ID_WINSTATUSDO1000" Type="int" />
+          <Property Name="ID_COUNTRY_ORIGIN" Type="int" />
+          <Property Name="ID_SUBJECTPURCHASE" Type="int" />
+          <Property Name="USER_ENTER" Type="nvarchar(max)" />
+          <Property Name="ID_SUBDIVISION" Type="int" />
+        </EntityType>
+        <EntityType Name="T_ProcurementInformation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NAME_PR" Type="nvarchar(max)" />
+          <Property Name="ID_LEGISLATION" Type="int" />
+          <Property Name="PR_APPROVAL_DATE" Type="date" />
+          <Property Name="ID_RESULT" Type="int" />
+          <Property Name="CONTRACT_DATE_TERM" Type="date" />
+          <Property Name="CONTRACT_DATE_FACT" Type="date" />
+          <Property Name="RESULT_DATE_TERM" Type="date" />
+          <Property Name="RESULT_DATE_FACT" Type="date" />
+          <Property Name="WIN_NAME" Type="nvarchar(max)" />
+          <Property Name="WIN_VALUE" Type="decimal" Precision="30" Scale="2" />
+          <Property Name="ID_WINSTATUS" Type="int" />
+          <Property Name="KRO_DATE_TERM" Type="date" />
+          <Property Name="KRO_DATE_FACT" Type="date" />
+          <Property Name="DATE_ACTIVE" Type="datetime" />
+          <Property Name="DATE_DEACT" Type="datetime" />
+          <Property Name="FLAG" Type="bit" />
+          <Property Name="FIO_ISP" Type="nvarchar(max)" />
+          <Property Name="INVITE_NUN" Type="nvarchar(max)" />
+          <Property Name="ID_CURRENCY" Type="int" />
+          <Property Name="CONTRACT_DATE_PROL" Type="date" />
+          <Property Name="CONTRACT_NUMBER" Type="nvarchar(max)" />
+          <Property Name="ID_COUNTRY" Type="int" />
+          <Property Name="PURCHASE_VOLUME" Type="nvarchar(max)" />
+          <Property Name="VOLUME_UNITS" Type="nvarchar(max)" />
+          <Property Name="PRICE_PER_ITEM" Type="nvarchar(max)" />
+          <Property Name="DELIVERY_COND" Type="nvarchar(max)" />
+          <Property Name="MAIN_TEC_SPECS" Type="nvarchar(max)" />
+          <Property Name="MANUFACTURER" Type="nvarchar(max)" />
+          <Property Name="ID_SUBJECTPURCHASE" Type="int" />
+          <Property Name="PRICE_PER_ITEM_NNDS" Type="nvarchar(max)" />
+          <Property Name="ID_COUNTRY_ORIGIN" Type="int" />
+          <Property Name="PARTICIPANT__VALUE" Type="int" />
+          <Property Name="WIN_VALUE_BYN" Type="real" />
+          <Property Name="USER_ENTER" Type="nvarchar(max)" />
+          <Property Name="ID_SUBDIVISION" Type="int" />
+        </EntityType>
+        <Association Name="FK__T_PrInfoD__ID_SU__5629CD9C">
+          <End Role="S_SubDivision" Type="Self.S_SubDivision" Multiplicity="0..1" />
+          <End Role="T_PrInfoDo1000" Type="Self.T_PrInfoDo1000" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="S_SubDivision">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_PrInfoDo1000">
+              <PropertyRef Name="ID_SUBDIVISION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__T_Procure__ID_SU__49C3F6B7">
+          <End Role="S_SubjectPurchase" Type="Self.S_SubjectPurchase" Multiplicity="0..1" />
+          <End Role="T_ProcurementInformation" Type="Self.T_ProcurementInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="S_SubjectPurchase">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_ProcurementInformation">
+              <PropertyRef Name="ID_SUBJECTPURCHASE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__T_Procure__ID_SU__5535A963">
+          <End Role="S_SubDivision" Type="Self.S_SubDivision" Multiplicity="0..1" />
+          <End Role="T_ProcurementInformation" Type="Self.T_ProcurementInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="S_SubDivision">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_ProcurementInformation">
+              <PropertyRef Name="ID_SUBDIVISION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PrInfoDo1000_WinStatus">
+          <End Role="S_WinStatusDo1000" Type="Self.S_WinStatusDo1000" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="T_PrInfoDo1000" Type="Self.T_PrInfoDo1000" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="S_WinStatusDo1000">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_PrInfoDo1000">
+              <PropertyRef Name="ID_WINSTATUSDO1000" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProcurementInfo_Diagram_S_Legislation">
+          <End Role="S_Legislation" Type="Self.S_Legislation" Multiplicity="0..1" />
+          <End Role="T_ProcurementInformation" Type="Self.T_ProcurementInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="S_Legislation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_ProcurementInformation">
+              <PropertyRef Name="ID_LEGISLATION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProcurementInfo_Diagram_S_Result">
+          <End Role="S_Result" Type="Self.S_Result" Multiplicity="0..1" />
+          <End Role="T_ProcurementInformation" Type="Self.T_ProcurementInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="S_Result">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_ProcurementInformation">
+              <PropertyRef Name="ID_RESULT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProcurementInfo_Diagram_S_WinStatus">
+          <End Role="S_WinStatus" Type="Self.S_WinStatus" Multiplicity="0..1" />
+          <End Role="T_ProcurementInformation" Type="Self.T_ProcurementInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="S_WinStatus">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_ProcurementInformation">
+              <PropertyRef Name="ID_WINSTATUS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_T_ProcurementInformation_S_Currency">
+          <End Role="S_Currency" Type="Self.S_Currency" Multiplicity="0..1" />
+          <End Role="T_ProcurementInformation" Type="Self.T_ProcurementInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="S_Currency">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_ProcurementInformation">
+              <PropertyRef Name="ID_CURRENCY" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="T_PrInfoDo1000_Currency">
+          <End Role="S_Currency" Type="Self.S_Currency" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="T_PrInfoDo1000" Type="Self.T_PrInfoDo1000" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="S_Currency">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_PrInfoDo1000">
+              <PropertyRef Name="ID_CURRENCY" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="T_PrInfoDo1000_Legislation">
+          <End Role="S_LegislDo1000" Type="Self.S_LegislDo1000" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="T_PrInfoDo1000" Type="Self.T_PrInfoDo1000" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="S_LegislDo1000">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_PrInfoDo1000">
+              <PropertyRef Name="ID_LEGISLDO1000" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="Хранилище ProcurementInfoModelContainer">
+          <EntitySet Name="S_Country" EntityType="Self.S_Country" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="S_Currency" EntityType="Self.S_Currency" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="S_Legislation" EntityType="Self.S_Legislation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="S_LegislDo1000" EntityType="Self.S_LegislDo1000" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="S_Result" EntityType="Self.S_Result" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="S_SubDivision" EntityType="Self.S_SubDivision" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="S_SubjectPurchase" EntityType="Self.S_SubjectPurchase" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="S_WinStatus" EntityType="Self.S_WinStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="S_WinStatusDo1000" EntityType="Self.S_WinStatusDo1000" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_PrInfoDo1000" EntityType="Self.T_PrInfoDo1000" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_ProcurementInformation" EntityType="Self.T_ProcurementInformation" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__T_PrInfoD__ID_SU__5629CD9C" Association="Self.FK__T_PrInfoD__ID_SU__5629CD9C">
+            <End Role="S_SubDivision" EntitySet="S_SubDivision" />
+            <End Role="T_PrInfoDo1000" EntitySet="T_PrInfoDo1000" />
+          </AssociationSet>
+          <AssociationSet Name="FK__T_Procure__ID_SU__49C3F6B7" Association="Self.FK__T_Procure__ID_SU__49C3F6B7">
+            <End Role="S_SubjectPurchase" EntitySet="S_SubjectPurchase" />
+            <End Role="T_ProcurementInformation" EntitySet="T_ProcurementInformation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__T_Procure__ID_SU__5535A963" Association="Self.FK__T_Procure__ID_SU__5535A963">
+            <End Role="S_SubDivision" EntitySet="S_SubDivision" />
+            <End Role="T_ProcurementInformation" EntitySet="T_ProcurementInformation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PrInfoDo1000_WinStatus" Association="Self.FK_PrInfoDo1000_WinStatus">
+            <End Role="S_WinStatusDo1000" EntitySet="S_WinStatusDo1000" />
+            <End Role="T_PrInfoDo1000" EntitySet="T_PrInfoDo1000" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProcurementInfo_Diagram_S_Legislation" Association="Self.FK_ProcurementInfo_Diagram_S_Legislation">
+            <End Role="S_Legislation" EntitySet="S_Legislation" />
+            <End Role="T_ProcurementInformation" EntitySet="T_ProcurementInformation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProcurementInfo_Diagram_S_Result" Association="Self.FK_ProcurementInfo_Diagram_S_Result">
+            <End Role="S_Result" EntitySet="S_Result" />
+            <End Role="T_ProcurementInformation" EntitySet="T_ProcurementInformation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProcurementInfo_Diagram_S_WinStatus" Association="Self.FK_ProcurementInfo_Diagram_S_WinStatus">
+            <End Role="S_WinStatus" EntitySet="S_WinStatus" />
+            <End Role="T_ProcurementInformation" EntitySet="T_ProcurementInformation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_T_ProcurementInformation_S_Currency" Association="Self.FK_T_ProcurementInformation_S_Currency">
+            <End Role="S_Currency" EntitySet="S_Currency" />
+            <End Role="T_ProcurementInformation" EntitySet="T_ProcurementInformation" />
+          </AssociationSet>
+          <AssociationSet Name="T_PrInfoDo1000_Currency" Association="Self.T_PrInfoDo1000_Currency">
+            <End Role="S_Currency" EntitySet="S_Currency" />
+            <End Role="T_PrInfoDo1000" EntitySet="T_PrInfoDo1000" />
+          </AssociationSet>
+          <AssociationSet Name="T_PrInfoDo1000_Legislation" Association="Self.T_PrInfoDo1000_Legislation">
+            <End Role="S_LegislDo1000" EntitySet="S_LegislDo1000" />
+            <End Role="T_PrInfoDo1000" EntitySet="T_PrInfoDo1000" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ProcurementInfoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="S_Legislation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FLAG" Type="Boolean" />
+          <NavigationProperty Name="T_ProcurementInformation" Relationship="Self.FK_ProcurementInfo_Diagram_S_Legislation" FromRole="S_Legislation" ToRole="T_ProcurementInformation" />
+        </EntityType>
+        <EntityType Name="S_Result">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="T_ProcurementInformation" Relationship="Self.FK_ProcurementInfo_Diagram_S_Result" FromRole="S_Result" ToRole="T_ProcurementInformation" />
+        </EntityType>
+        <EntityType Name="S_WinStatus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FLAG" Type="Boolean" />
+          <NavigationProperty Name="T_ProcurementInformation" Relationship="Self.FK_ProcurementInfo_Diagram_S_WinStatus" FromRole="S_WinStatus" ToRole="T_ProcurementInformation" />
+        </EntityType>
+        <EntityType Name="T_ProcurementInformation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NAME_PR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ID_LEGISLATION" Type="Int32" />
+          <Property Name="PR_APPROVAL_DATE" Type="DateTime" Precision="0" Nullable="true" />
+          <Property Name="ID_RESULT" Type="Int32" />
+          <Property Name="CONTRACT_DATE_TERM" Type="DateTime" Precision="0" Nullable="true" />
+          <Property Name="CONTRACT_DATE_FACT" Type="DateTime" Precision="0" />
+          <Property Name="RESULT_DATE_TERM" Type="DateTime" Precision="0" Nullable="true" />
+          <Property Name="RESULT_DATE_FACT" Type="DateTime" Precision="0" />
+          <Property Name="WIN_NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="WIN_VALUE" Type="Decimal" Precision="30" Scale="2" />
+          <Property Name="ID_WINSTATUS" Type="Int32" />
+          <Property Name="KRO_DATE_TERM" Type="DateTime" Precision="0" />
+          <Property Name="KRO_DATE_FACT" Type="DateTime" Precision="0" />
+          <Property Name="DATE_ACTIVE" Type="DateTime" Precision="3" />
+          <Property Name="DATE_DEACT" Type="DateTime" Precision="3" />
+          <Property Name="FLAG" Type="Boolean" />
+          <Property Name="FIO_ISP" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="S_Legislation" Relationship="Self.FK_ProcurementInfo_Diagram_S_Legislation" FromRole="T_ProcurementInformation" ToRole="S_Legislation" />
+          <NavigationProperty Name="S_Result" Relationship="Self.FK_ProcurementInfo_Diagram_S_Result" FromRole="T_ProcurementInformation" ToRole="S_Result" />
+          <NavigationProperty Name="S_WinStatus" Relationship="Self.FK_ProcurementInfo_Diagram_S_WinStatus" FromRole="T_ProcurementInformation" ToRole="S_WinStatus" />
+          <Property Name="INVITE_NUN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ID_CURRENCY" Type="Int32" />
+          <NavigationProperty Name="S_Currency" Relationship="ProcurementInfoModel.FK_T_ProcurementInformation_S_Currency" FromRole="T_ProcurementInformation" ToRole="S_Currency" />
+          <Property Name="CONTRACT_DATE_PROL" Type="DateTime" Precision="0" />
+          <Property Name="CONTRACT_NUMBER" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ID_COUNTRY" Type="Int32" />
+          <Property Name="PURCHASE_VOLUME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="VOLUME_UNITS" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PRICE_PER_ITEM" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DELIVERY_COND" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MAIN_TEC_SPECS" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MANUFACTURER" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="S_Country" Relationship="ProcurementInfoModel.S_CountryT_ProcurementInformation" FromRole="T_ProcurementInformation" ToRole="S_Country" />
+          <Property Name="PRICE_PER_ITEM_NDNS" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ID_SUBJECTPURCHASE" Type="Int32" />
+          <NavigationProperty Name="S_SubjectPurchase" Relationship="ProcurementInfoModel.FK__T_Procure__ID_SU__49C3F6B7" FromRole="T_ProcurementInformation" ToRole="S_SubjectPurchase" />
+          <Property Name="WIN_VALUE_BYN" Type="Single" />
+          <Property Name="ID_COUNTRY_ORIGIN" Type="Int32" />
+          <Property Name="PARTICIPANT__VALUE" Type="Int32" />
+          <Property Name="USER_ENTER" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ID_SUBDIVISION" Type="Int32" />
+          <NavigationProperty Name="S_SubDivision" Relationship="ProcurementInfoModel.FK__T_Procure__ID_SU__5535A963" FromRole="T_ProcurementInformation" ToRole="S_SubDivision" />
+        </EntityType>
+        <Association Name="FK_ProcurementInfo_Diagram_S_Legislation">
+          <End Role="S_Legislation" Type="Self.S_Legislation" Multiplicity="0..1" />
+          <End Role="T_ProcurementInformation" Type="Self.T_ProcurementInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="S_Legislation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_ProcurementInformation">
+              <PropertyRef Name="ID_LEGISLATION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProcurementInfo_Diagram_S_Result">
+          <End Role="S_Result" Type="Self.S_Result" Multiplicity="0..1" />
+          <End Role="T_ProcurementInformation" Type="Self.T_ProcurementInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="S_Result">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_ProcurementInformation">
+              <PropertyRef Name="ID_RESULT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProcurementInfo_Diagram_S_WinStatus">
+          <End Role="S_WinStatus" Type="Self.S_WinStatus" Multiplicity="0..1" />
+          <End Role="T_ProcurementInformation" Type="Self.T_ProcurementInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="S_WinStatus">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_ProcurementInformation">
+              <PropertyRef Name="ID_WINSTATUS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ProcurementInfoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="S_Legislation" EntityType="Self.S_Legislation" />
+          <EntitySet Name="S_Result" EntityType="Self.S_Result" />
+          <EntitySet Name="S_WinStatus" EntityType="Self.S_WinStatus" />
+          <EntitySet Name="T_ProcurementInformation" EntityType="Self.T_ProcurementInformation" />
+          <AssociationSet Name="FK_ProcurementInfo_Diagram_S_Legislation" Association="Self.FK_ProcurementInfo_Diagram_S_Legislation">
+            <End Role="S_Legislation" EntitySet="S_Legislation" />
+            <End Role="T_ProcurementInformation" EntitySet="T_ProcurementInformation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProcurementInfo_Diagram_S_Result" Association="Self.FK_ProcurementInfo_Diagram_S_Result">
+            <End Role="S_Result" EntitySet="S_Result" />
+            <End Role="T_ProcurementInformation" EntitySet="T_ProcurementInformation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProcurementInfo_Diagram_S_WinStatus" Association="Self.FK_ProcurementInfo_Diagram_S_WinStatus">
+            <End Role="S_WinStatus" EntitySet="S_WinStatus" />
+            <End Role="T_ProcurementInformation" EntitySet="T_ProcurementInformation" />
+          </AssociationSet>
+          <EntitySet Name="S_Currency" EntityType="ProcurementInfoModel.S_Currency" />
+          <AssociationSet Name="FK_T_ProcurementInformation_S_Currency" Association="ProcurementInfoModel.FK_T_ProcurementInformation_S_Currency">
+            <End Role="S_Currency" EntitySet="S_Currency" />
+            <End Role="T_ProcurementInformation" EntitySet="T_ProcurementInformation" />
+          </AssociationSet>
+          <EntitySet Name="S_Country" EntityType="ProcurementInfoModel.S_Country" />
+          <AssociationSet Name="S_CountryT_ProcurementInformation" Association="ProcurementInfoModel.S_CountryT_ProcurementInformation">
+            <End Role="T_ProcurementInformation" EntitySet="T_ProcurementInformation" />
+            <End Role="S_Country" EntitySet="S_Country" />
+          </AssociationSet>
+          <EntitySet Name="sysdiagrams" EntityType="ProcurementInfoModel.sysdiagrams" />
+          <EntitySet Name="S_SubjectPurchase" EntityType="ProcurementInfoModel.S_SubjectPurchase" />
+          <AssociationSet Name="FK__T_Procure__ID_SU__49C3F6B7" Association="ProcurementInfoModel.FK__T_Procure__ID_SU__49C3F6B7">
+            <End Role="S_SubjectPurchase" EntitySet="S_SubjectPurchase" />
+            <End Role="T_ProcurementInformation" EntitySet="T_ProcurementInformation" />
+          </AssociationSet>
+          <EntitySet Name="S_LegislDo1000" EntityType="ProcurementInfoModel.S_LegislDo1000" />
+          <EntitySet Name="T_PrInfoDo1000" EntityType="ProcurementInfoModel.T_PrInfoDo1000" />
+          <AssociationSet Name="T_PrInfoDo1000_Currency" Association="ProcurementInfoModel.T_PrInfoDo1000_Currency">
+            <End Role="S_Currency" EntitySet="S_Currency" />
+            <End Role="T_PrInfoDo1000" EntitySet="T_PrInfoDo1000" />
+          </AssociationSet>
+          <AssociationSet Name="T_PrInfoDo1000_Legislation" Association="ProcurementInfoModel.T_PrInfoDo1000_Legislation">
+            <End Role="S_LegislDo1000" EntitySet="S_LegislDo1000" />
+            <End Role="T_PrInfoDo1000" EntitySet="T_PrInfoDo1000" />
+          </AssociationSet>
+          <EntitySet Name="S_WinStatusDo1000" EntityType="ProcurementInfoModel.S_WinStatusDo1000" />
+          <AssociationSet Name="FK_PrInfoDo1000_WinStatus" Association="ProcurementInfoModel.FK_PrInfoDo1000_WinStatus">
+            <End Role="S_WinStatusDo1000" EntitySet="S_WinStatusDo1000" />
+            <End Role="T_PrInfoDo1000" EntitySet="T_PrInfoDo1000" />
+          </AssociationSet>
+          <EntitySet Name="S_SubDivision" EntityType="ProcurementInfoModel.S_SubDivision" />
+          <AssociationSet Name="FK__T_PrInfoD__ID_SU__5629CD9C" Association="ProcurementInfoModel.FK__T_PrInfoD__ID_SU__5629CD9C">
+            <End Role="S_SubDivision" EntitySet="S_SubDivision" />
+            <End Role="T_PrInfoDo1000" EntitySet="T_PrInfoDo1000" />
+          </AssociationSet>
+          <AssociationSet Name="FK__T_Procure__ID_SU__5535A963" Association="ProcurementInfoModel.FK__T_Procure__ID_SU__5535A963">
+            <End Role="S_SubDivision" EntitySet="S_SubDivision" />
+            <End Role="T_ProcurementInformation" EntitySet="T_ProcurementInformation" />
+          </AssociationSet>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(ProcurementInfoModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(ProcurementInfoModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="S_Currency">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LETTER_CODE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FLAG" Type="Boolean" />
+          <NavigationProperty Name="T_ProcurementInformation" Relationship="ProcurementInfoModel.FK_T_ProcurementInformation_S_Currency" FromRole="S_Currency" ToRole="T_ProcurementInformation" />
+          <NavigationProperty Name="T_PrInfoDo1000" Relationship="ProcurementInfoModel.T_PrInfoDo1000_Currency" FromRole="S_Currency" ToRole="T_PrInfoDo1000" />
+        </EntityType>
+        <Association Name="FK_T_ProcurementInformation_S_Currency">
+          <End Type="ProcurementInfoModel.S_Currency" Role="S_Currency" Multiplicity="0..1" />
+          <End Type="ProcurementInfoModel.T_ProcurementInformation" Role="T_ProcurementInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="S_Currency">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_ProcurementInformation">
+              <PropertyRef Name="ID_CURRENCY" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="S_Country">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CODE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FULL_NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="T_ProcurementInformation" Relationship="ProcurementInfoModel.S_CountryT_ProcurementInformation" FromRole="S_Country" ToRole="T_ProcurementInformation" />
+        </EntityType>
+        <Association Name="S_CountryT_ProcurementInformation">
+          <End Type="ProcurementInfoModel.T_ProcurementInformation" Role="T_ProcurementInformation" Multiplicity="*" />
+          <End Type="ProcurementInfoModel.S_Country" Role="S_Country" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="S_Country">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_ProcurementInformation">
+              <PropertyRef Name="ID_COUNTRY" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="S_SubjectPurchase">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="T_ProcurementInformation" Relationship="ProcurementInfoModel.FK__T_Procure__ID_SU__49C3F6B7" FromRole="S_SubjectPurchase" ToRole="T_ProcurementInformation" />
+          <Property Name="FLAG" Type="Boolean" />
+        </EntityType>
+        <Association Name="FK__T_Procure__ID_SU__49C3F6B7">
+          <End Type="ProcurementInfoModel.S_SubjectPurchase" Role="S_SubjectPurchase" Multiplicity="0..1" />
+          <End Type="ProcurementInfoModel.T_ProcurementInformation" Role="T_ProcurementInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="S_SubjectPurchase">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_ProcurementInformation">
+              <PropertyRef Name="ID_SUBJECTPURCHASE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="S_LegislDo1000">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FLAG" Type="Boolean" />
+          <NavigationProperty Name="T_PrInfoDo1000" Relationship="ProcurementInfoModel.T_PrInfoDo1000_Legislation" FromRole="S_LegislDo1000" ToRole="T_PrInfoDo1000" />
+        </EntityType>
+        <EntityType Name="T_PrInfoDo1000">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NAME_PR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ID_LEGISLDO1000" Type="Int32" />
+          <Property Name="CONTRACT_NUMBER" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DATE_CONCLUSION" Type="DateTime" Precision="0" />
+          <Property Name="WIN_NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="WIN_VALUE" Type="Decimal" Precision="30" Scale="2" />
+          <Property Name="WIN_VALUE_NDE" Type="Decimal" Precision="30" Scale="2" />
+          <Property Name="WIN_VALUE_NNDS" Type="Decimal" Precision="30" Scale="2" />
+          <Property Name="FIO_ISP" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ID_CURRENCY" Type="Int32" />
+          <Property Name="DATE_ACTIVE" Type="DateTime" Precision="3" />
+          <Property Name="DATE_DEACT" Type="DateTime" Precision="3" />
+          <Property Name="FLAG" Type="Boolean" />
+          <Property Name="ID_WINSTATUSDO1000" Type="Int32" />
+          <NavigationProperty Name="S_Currency" Relationship="ProcurementInfoModel.T_PrInfoDo1000_Currency" FromRole="T_PrInfoDo1000" ToRole="S_Currency" />
+          <NavigationProperty Name="S_LegislDo1000" Relationship="ProcurementInfoModel.T_PrInfoDo1000_Legislation" FromRole="T_PrInfoDo1000" ToRole="S_LegislDo1000" />
+          <Property Name="ID_COUNTRY_ORIGIN" Type="Int32" />
+          <Property Name="ID_SUBJECTPURCHASE" Type="Int32" />
+          <Property Name="USER_ENTER" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="S_WinStatusDo1000" Relationship="ProcurementInfoModel.FK_PrInfoDo1000_WinStatus" FromRole="T_PrInfoDo1000" ToRole="S_WinStatusDo1000" />
+          <Property Name="ID_SUBDIVISION" Type="Int32" />
+          <NavigationProperty Name="S_SubDivision" Relationship="ProcurementInfoModel.FK__T_PrInfoD__ID_SU__5629CD9C" FromRole="T_PrInfoDo1000" ToRole="S_SubDivision" />
+        </EntityType>
+        <Association Name="T_PrInfoDo1000_Currency">
+          <End Type="ProcurementInfoModel.S_Currency" Role="S_Currency" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ProcurementInfoModel.T_PrInfoDo1000" Role="T_PrInfoDo1000" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="S_Currency">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_PrInfoDo1000">
+              <PropertyRef Name="ID_CURRENCY" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="T_PrInfoDo1000_Legislation">
+          <End Type="ProcurementInfoModel.S_LegislDo1000" Role="S_LegislDo1000" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ProcurementInfoModel.T_PrInfoDo1000" Role="T_PrInfoDo1000" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="S_LegislDo1000">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_PrInfoDo1000">
+              <PropertyRef Name="ID_LEGISLDO1000" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="S_WinStatusDo1000">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FLAG" Type="Boolean" />
+          <NavigationProperty Name="T_PrInfoDo1000" Relationship="ProcurementInfoModel.FK_PrInfoDo1000_WinStatus" FromRole="S_WinStatusDo1000" ToRole="T_PrInfoDo1000" />
+        </EntityType>
+        <Association Name="FK_PrInfoDo1000_WinStatus">
+          <End Type="ProcurementInfoModel.S_WinStatusDo1000" Role="S_WinStatusDo1000" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ProcurementInfoModel.T_PrInfoDo1000" Role="T_PrInfoDo1000" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="S_WinStatusDo1000">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_PrInfoDo1000">
+              <PropertyRef Name="ID_WINSTATUSDO1000" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="S_SubDivision">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="T_PrInfoDo1000" Relationship="ProcurementInfoModel.FK__T_PrInfoD__ID_SU__5629CD9C" FromRole="S_SubDivision" ToRole="T_PrInfoDo1000" />
+          <NavigationProperty Name="T_ProcurementInformation" Relationship="ProcurementInfoModel.FK__T_Procure__ID_SU__5535A963" FromRole="S_SubDivision" ToRole="T_ProcurementInformation" />
+        </EntityType>
+        <Association Name="FK__T_PrInfoD__ID_SU__5629CD9C">
+          <End Type="ProcurementInfoModel.S_SubDivision" Role="S_SubDivision" Multiplicity="0..1" />
+          <End Type="ProcurementInfoModel.T_PrInfoDo1000" Role="T_PrInfoDo1000" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="S_SubDivision">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_PrInfoDo1000">
+              <PropertyRef Name="ID_SUBDIVISION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__T_Procure__ID_SU__5535A963">
+          <End Type="ProcurementInfoModel.S_SubDivision" Role="S_SubDivision" Multiplicity="0..1" />
+          <End Type="ProcurementInfoModel.T_ProcurementInformation" Role="T_ProcurementInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="S_SubDivision">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_ProcurementInformation">
+              <PropertyRef Name="ID_SUBDIVISION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище ProcurementInfoModelContainer" CdmEntityContainer="ProcurementInfoEntities">
+          <EntitySetMapping Name="S_Legislation">
+            <EntityTypeMapping TypeName="ProcurementInfoModel.S_Legislation">
+              <MappingFragment StoreEntitySet="S_Legislation">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="FLAG" ColumnName="FLAG" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="S_Result">
+            <EntityTypeMapping TypeName="ProcurementInfoModel.S_Result">
+              <MappingFragment StoreEntitySet="S_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="S_WinStatus">
+            <EntityTypeMapping TypeName="ProcurementInfoModel.S_WinStatus">
+              <MappingFragment StoreEntitySet="S_WinStatus">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="FLAG" ColumnName="FLAG" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_ProcurementInformation">
+            <EntityTypeMapping TypeName="ProcurementInfoModel.T_ProcurementInformation">
+              <MappingFragment StoreEntitySet="T_ProcurementInformation">
+                <ScalarProperty Name="ID_SUBDIVISION" ColumnName="ID_SUBDIVISION" />
+                <ScalarProperty Name="USER_ENTER" ColumnName="USER_ENTER" />
+                <ScalarProperty Name="PRICE_PER_ITEM_NDNS" ColumnName="PRICE_PER_ITEM_NNDS" />
+                <ScalarProperty Name="PARTICIPANT__VALUE" ColumnName="PARTICIPANT__VALUE" />
+                <ScalarProperty Name="ID_COUNTRY_ORIGIN" ColumnName="ID_COUNTRY_ORIGIN" />
+                <ScalarProperty Name="WIN_VALUE_BYN" ColumnName="WIN_VALUE_BYN" />
+                <ScalarProperty Name="ID_SUBJECTPURCHASE" ColumnName="ID_SUBJECTPURCHASE" />
+                <ScalarProperty Name="MANUFACTURER" ColumnName="MANUFACTURER" />
+                <ScalarProperty Name="MAIN_TEC_SPECS" ColumnName="MAIN_TEC_SPECS" />
+                <ScalarProperty Name="DELIVERY_COND" ColumnName="DELIVERY_COND" />
+                <ScalarProperty Name="PRICE_PER_ITEM" ColumnName="PRICE_PER_ITEM" />
+                <ScalarProperty Name="VOLUME_UNITS" ColumnName="VOLUME_UNITS" />
+                <ScalarProperty Name="PURCHASE_VOLUME" ColumnName="PURCHASE_VOLUME" />
+                <ScalarProperty Name="ID_COUNTRY" ColumnName="ID_COUNTRY" />
+                <ScalarProperty Name="CONTRACT_NUMBER" ColumnName="CONTRACT_NUMBER" />
+                <ScalarProperty Name="CONTRACT_DATE_PROL" ColumnName="CONTRACT_DATE_PROL" />
+                <ScalarProperty Name="ID_CURRENCY" ColumnName="ID_CURRENCY" />
+                <ScalarProperty Name="INVITE_NUN" ColumnName="INVITE_NUN" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NAME_PR" ColumnName="NAME_PR" />
+                <ScalarProperty Name="ID_LEGISLATION" ColumnName="ID_LEGISLATION" />
+                <ScalarProperty Name="PR_APPROVAL_DATE" ColumnName="PR_APPROVAL_DATE" />
+                <ScalarProperty Name="ID_RESULT" ColumnName="ID_RESULT" />
+                <ScalarProperty Name="CONTRACT_DATE_TERM" ColumnName="CONTRACT_DATE_TERM" />
+                <ScalarProperty Name="CONTRACT_DATE_FACT" ColumnName="CONTRACT_DATE_FACT" />
+                <ScalarProperty Name="RESULT_DATE_TERM" ColumnName="RESULT_DATE_TERM" />
+                <ScalarProperty Name="RESULT_DATE_FACT" ColumnName="RESULT_DATE_FACT" />
+                <ScalarProperty Name="WIN_NAME" ColumnName="WIN_NAME" />
+                <ScalarProperty Name="WIN_VALUE" ColumnName="WIN_VALUE" />
+                <ScalarProperty Name="ID_WINSTATUS" ColumnName="ID_WINSTATUS" />
+                <ScalarProperty Name="KRO_DATE_TERM" ColumnName="KRO_DATE_TERM" />
+                <ScalarProperty Name="KRO_DATE_FACT" ColumnName="KRO_DATE_FACT" />
+                <ScalarProperty Name="DATE_ACTIVE" ColumnName="DATE_ACTIVE" />
+                <ScalarProperty Name="DATE_DEACT" ColumnName="DATE_DEACT" />
+                <ScalarProperty Name="FLAG" ColumnName="FLAG" />
+                <ScalarProperty Name="FIO_ISP" ColumnName="FIO_ISP" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="S_Currency">
+            <EntityTypeMapping TypeName="ProcurementInfoModel.S_Currency">
+              <MappingFragment StoreEntitySet="S_Currency">
+                <ScalarProperty Name="FLAG" ColumnName="FLAG" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="LETTER_CODE" ColumnName="LETTER_CODE" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="S_Country">
+            <EntityTypeMapping TypeName="ProcurementInfoModel.S_Country">
+              <MappingFragment StoreEntitySet="S_Country">
+                <ScalarProperty Name="FULL_NAME" ColumnName="FULL_NAME" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="CODE" ColumnName="CODE" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ProcurementInfoModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="S_SubjectPurchase">
+            <EntityTypeMapping TypeName="ProcurementInfoModel.S_SubjectPurchase">
+              <MappingFragment StoreEntitySet="S_SubjectPurchase">
+                <ScalarProperty Name="FLAG" ColumnName="FLAG" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="S_LegislDo1000">
+            <EntityTypeMapping TypeName="ProcurementInfoModel.S_LegislDo1000">
+              <MappingFragment StoreEntitySet="S_LegislDo1000">
+                <ScalarProperty Name="FLAG" ColumnName="FLAG" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_PrInfoDo1000">
+            <EntityTypeMapping TypeName="ProcurementInfoModel.T_PrInfoDo1000">
+              <MappingFragment StoreEntitySet="T_PrInfoDo1000">
+                <ScalarProperty Name="ID_SUBDIVISION" ColumnName="ID_SUBDIVISION" />
+                <ScalarProperty Name="USER_ENTER" ColumnName="USER_ENTER" />
+                <ScalarProperty Name="ID_SUBJECTPURCHASE" ColumnName="ID_SUBJECTPURCHASE" />
+                <ScalarProperty Name="ID_COUNTRY_ORIGIN" ColumnName="ID_COUNTRY_ORIGIN" />
+                <ScalarProperty Name="ID_WINSTATUSDO1000" ColumnName="ID_WINSTATUSDO1000" />
+                <ScalarProperty Name="FLAG" ColumnName="FLAG" />
+                <ScalarProperty Name="DATE_DEACT" ColumnName="DATE_DEACT" />
+                <ScalarProperty Name="DATE_ACTIVE" ColumnName="DATE_ACTIVE" />
+                <ScalarProperty Name="ID_CURRENCY" ColumnName="ID_CURRENCY" />
+                <ScalarProperty Name="FIO_ISP" ColumnName="FIO_ISP" />
+                <ScalarProperty Name="WIN_VALUE_NNDS" ColumnName="WIN_VALUE_NNDS" />
+                <ScalarProperty Name="WIN_VALUE_NDE" ColumnName="WIN_VALUE_NDE" />
+                <ScalarProperty Name="WIN_VALUE" ColumnName="WIN_VALUE" />
+                <ScalarProperty Name="WIN_NAME" ColumnName="WIN_NAME" />
+                <ScalarProperty Name="DATE_CONCLUSION" ColumnName="DATE_CONCLUSION" />
+                <ScalarProperty Name="CONTRACT_NUMBER" ColumnName="CONTRACT_NUMBER" />
+                <ScalarProperty Name="ID_LEGISLDO1000" ColumnName="ID_LEGISLDO1000" />
+                <ScalarProperty Name="NAME_PR" ColumnName="NAME_PR" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="S_WinStatusDo1000">
+            <EntityTypeMapping TypeName="ProcurementInfoModel.S_WinStatusDo1000">
+              <MappingFragment StoreEntitySet="S_WinStatusDo1000">
+                <ScalarProperty Name="FLAG" ColumnName="FLAG" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="S_SubDivision">
+            <EntityTypeMapping TypeName="ProcurementInfoModel.S_SubDivision">
+              <MappingFragment StoreEntitySet="S_SubDivision">
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="Хранилище ProcurementInfoModel.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="Хранилище ProcurementInfoModel.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="Хранилище ProcurementInfoModel.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="Хранилище ProcurementInfoModel.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProcurementInfoModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="Хранилище ProcurementInfoModel.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProcurementInfoModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Хранилище ProcurementInfoModel.sp_renamediagram" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

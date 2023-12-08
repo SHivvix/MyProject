@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Хранилище ProcurementInfoModelContainer" CdmEntityContainer="ProcurementInfoEntities">
+    <EntitySetMapping Name="S_Legislation">
+      <EntityTypeMapping TypeName="ProcurementInfoModel.S_Legislation">
+        <MappingFragment StoreEntitySet="S_Legislation">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="NAME" ColumnName="NAME" />
+          <ScalarProperty Name="FLAG" ColumnName="FLAG" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="S_Result">
+      <EntityTypeMapping TypeName="ProcurementInfoModel.S_Result">
+        <MappingFragment StoreEntitySet="S_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="NAME" ColumnName="NAME" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="S_WinStatus">
+      <EntityTypeMapping TypeName="ProcurementInfoModel.S_WinStatus">
+        <MappingFragment StoreEntitySet="S_WinStatus">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="NAME" ColumnName="NAME" />
+          <ScalarProperty Name="FLAG" ColumnName="FLAG" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="T_ProcurementInformation">
+      <EntityTypeMapping TypeName="ProcurementInfoModel.T_ProcurementInformation">
+        <MappingFragment StoreEntitySet="T_ProcurementInformation">
+          <ScalarProperty Name="ID_CURRENCY" ColumnName="ID_CURRENCY" />
+          <ScalarProperty Name="INVITE_NUN" ColumnName="INVITE_NUN" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="NAME_PR" ColumnName="NAME_PR" />
+          <ScalarProperty Name="ID_LEGISLATION" ColumnName="ID_LEGISLATION" />
+          <ScalarProperty Name="PR_APPROVAL_DATE" ColumnName="PR_APPROVAL_DATE" />
+          <ScalarProperty Name="ID_RESULT" ColumnName="ID_RESULT" />
+          <ScalarProperty Name="CONTRACT_DATE_TERM" ColumnName="CONTRACT_DATE_TERM" />
+          <ScalarProperty Name="CONTRACT_DATE_FACT" ColumnName="CONTRACT_DATE_FACT" />
+          <ScalarProperty Name="RESULT_DATE_TERM" ColumnName="RESULT_DATE_TERM" />
+          <ScalarProperty Name="RESULT_DATE_FACT" ColumnName="RESULT_DATE_FACT" />
+          <ScalarProperty Name="WIN_NAME" ColumnName="WIN_NAME" />
+          <ScalarProperty Name="WIN_VALUE" ColumnName="WIN_VALUE" />
+          <ScalarProperty Name="ID_WINSTATUS" ColumnName="ID_WINSTATUS" />
+          <ScalarProperty Name="KRO_DATE_TERM" ColumnName="KRO_DATE_TERM" />
+          <ScalarProperty Name="KRO_DATE_FACT" ColumnName="KRO_DATE_FACT" />
+          <ScalarProperty Name="DATE_ACTIVE" ColumnName="DATE_ACTIVE" />
+          <ScalarProperty Name="DATE_DEACT" ColumnName="DATE_DEACT" />
+          <ScalarProperty Name="FLAG" ColumnName="FLAG" />
+          <ScalarProperty Name="FIO_ISP" ColumnName="FIO_ISP" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="S_Currency">
+      <EntityTypeMapping TypeName="ProcurementInfoModel.S_Currency">
+        <MappingFragment StoreEntitySet="S_Currency">
+          <ScalarProperty Name="FLAG" ColumnName="FLAG" />
+          <ScalarProperty Name="NAME" ColumnName="NAME" />
+          <ScalarProperty Name="LETTER_CODE" ColumnName="LETTER_CODE" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

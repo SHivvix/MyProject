@@ -1,0 +1,1022 @@
+﻿@using WebApplication.Models
+@{
+    ViewBag.Title = "Home";
+}
+
+@Html.ActionLink("Закупки до 1000 БВ", "Index_do1k", "Home", new { area = "" }, new { @class = "navbar-brand" })
+<div id="grid" style="margin-top:80px">
+    <p align="right"><a href="/Home/Index">Перейти в закупки свыше 1000 БВ --></a></p>
+    @Html.EJS().DateRangePicker("daterangepicker").Format("dd.MM.yyyy").Width("25%").Presets(PresetItem =>
+            {
+                PresetItem.Label("Эта неделя").Start(ViewBag.weekStart).End(ViewBag.weekEnd).Add();
+                PresetItem.Label("Этот месяц").Start(ViewBag.monthStart).End(ViewBag.monthEnd).Add();
+                 PresetItem.Label("Этот год").Start(ViewBag.YearStart).End(ViewBag.YearEnd).Add();
+                PresetItem.Label("Прошлый месяц").Start(ViewBag.lastMonthStart).End(ViewBag.lastMonthEnd).Add();
+                PresetItem.Label("Прошлый год").Start(ViewBag.lastYearStart).End(ViewBag.lastYearEnd).Add();
+            }
+            ).Change("onChange").Render()
+
+
+    <div class="modal-content" , id="Modal1">
+        <div class="modal-header">
+            <button class="close" data-dismiss="modal1" area-hidden="true" onclick="M_C()"></button>
+            <script>
+                function M_C() {
+                    document.getElementById("Modal1").style.display = "none";
+                }</script>
+            <h4 align="center">Добавление записи в таблицу</h4>
+        </div>
+        <div class="modal-body">
+            <div class="container">
+                <div class="right">
+                    <h4 align="center">Обязательные поля для ввода</h4>
+                    <div class="block-1">
+                        <br><p data-tooltip="Поле обязательное для ввода.">
+                            Наименование процедуры закупки<h9 id="redast">*</h9>
+                            <input id="ent1"></input>
+                        </p></br>
+                    </div>
+                    <div class="block-1">
+                        <br><p data-tooltip="Поле обязательное для ввода.">
+                            Предмет закупки<h9 id="redast">*</h9>
+                                <select id="sel1">
+                                    @foreach (var sub in ViewBag.Subject)
+                                    {
+                                        <option>@sub</option>
+                                    }
+                                </select>
+                        </p></br>
+                    </div>
+                    <div class="block-1">
+                        <br><p data-tooltip="Поле обязательное для ввода.">
+                            Ответственный исполнитель<h9 id="redast">*</h9>
+                            <input id="ent3"></input>
+                        </p></br>
+                    </div>
+
+                    <div class="block-1">
+                        <br><p data-tooltip="Поле обязательное для ввода.">
+                            Структурное подразделение<h9 id="redast">*</h9>
+                            <select id="sel14">
+                                @foreach (var legisl in ViewBag.Division)
+                                {
+                                    <option>@legisl</option>
+                                }
+                            </select>
+                        </p></br>
+                    </div>
+
+                    <div class="block-1">
+                        <br><p data-tooltip="Поле обязательное для ввода.">
+                            Процедура закупки<h9 id="redast">*</h9>
+                            <select id="sel3">
+                                @foreach (var legisl in ViewBag.Legislation)
+                                {
+                                    <option>@legisl</option>
+                                }
+                            </select>
+                        </p></br>
+                    </div>
+                    <div class="block-1">
+                        <br><p data-tooltip="При не введенной дате будет выставленна дата на момент создания записи">
+                            Дата утверждения протокола / биржевой сделаки
+                            <input type="date" id="ent8"></input>
+                        </p></br>
+                    </div>
+                    <div class="block-1">
+                        <br />
+                        <br><p data-tooltip="Проверьте, все ли обязательные поля заполненны!">
+                            <button onclick="Country_CheckIns()">Добавить</button>
+                        </p></br>
+                    </div>
+                </div>
+                <div class="left">
+                    <h4 align="center">Не обязательные поля ввода</h4>
+                    <br />
+                    <div class="block-1">
+                        Рег. номер договора
+                        <input id="ent2"></input>
+                    </div>
+                    <br />
+                    <div class="block-1">
+                        Статус поставщика
+                        <select id="sel2">
+                            <option></option>
+                            @foreach (var win in ViewBag.WinStatus)
+                            {
+                                <option>@win</option>
+                            }
+                        </select>
+                    </div>
+                    <br />
+                    <div class="block-1">
+                        Сумма в вал. договора
+                        <input id="ent4"></input>
+                    </div>
+                    <br />
+                    <div class="block-1">
+                        Валюта договора
+                        <select id="sel4">
+                            <option></option>
+                            @foreach (var cur in ViewBag.Currency)
+                            {
+                                <option>@cur</option>
+                            }
+                        </select>
+                    </div>
+                    <br />
+                    <div class="block-1">
+                        Сумма в бел. рублях
+                        <input id="ent5"></input></input>
+                    </div>
+                    <br />
+                    <div class="block-1">
+                        Сумма в бел. руб. без НДС
+                        <input id="ent6"></input>
+                    </div>
+                    <br />
+                    <div class="block-1">
+                        Контрагент
+                        <input id="ent7"></input>
+                    </div>
+                    <br />
+                    <div class="block-1">
+                        <p data-tooltip="Введите название станы, пример: Беларусь, или выберите из списка.">
+                            Страна происхождения товара
+                            <input list="character" id="ent9"></input>
+                            <datalist id="character">
+                                @foreach (var country in ViewBag.Country)
+                                {
+                                    <option>@country</option>
+                                }
+                            </datalist>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal-content" , id="Modal_update">
+        <div class="modal-header">
+            <button class="close" data-dismiss="modal1" area-hidden="true" onclick="M_Update_C()"></button>
+            <script>
+                function M_Update_C() {
+                    document.getElementById("Modal_update").style.display = "none";
+                }</script>
+            <h4 align="center">Редактирование записи</h4>
+        </div>
+        <div class="modal-body">
+            № записи
+            <input id="number_lenght"></input> <button onclick="EnterFromNumber()" id="b1">Загрузить запись</button> <button disabled="true" id="b2" onclick="Edit_button()">Измнить</button><br />
+            <div class="hid_div" id="hid_dv">
+                <div class="container">
+                    <div class="right">
+                        <h4 align="center">Обязательные поля для ввода</h4>
+                        <div class="block-1">
+                            <br><p data-tooltip="Поле обязательное для ввода.">
+                                Наименование процедуры закупки<h9 id="redast">*</h9>
+                                <input id="in1"></input>
+                            </p></br>
+                        </div>
+                        <div class="block-1">
+                            <br><p data-tooltip="Поле обязательное для ввода.">
+                                Предмет закупки<h9 id="redast">*</h9>
+                                <select id="in2">
+                                    @foreach (var sub in ViewBag.Subject)
+                                    {
+                                        <option>@sub</option>
+                                    }
+                                </select>
+                            </p></br>
+                        </div>
+                        <div class="block-1">
+                            <br><p data-tooltip="Поле обязательное для ввода.">
+                                Ответственный исполнитель<h9 id="redast">*</h9>
+                                <input id="in4"></input>
+                            </p></br>
+                        </div>
+
+                        <div class="block-1">
+                            <br><p data-tooltip="Поле обязательное для ввода.">
+                                Структурное подразделение<h9 id="redast">*</h9>
+                                <select id="in14">
+                                    @foreach (var legisl in ViewBag.Division)
+                                    {
+                                        <option>@legisl</option>
+                                    }
+                                </select>
+                            </p></br>
+                        </div>
+
+                        <div class="block-1">
+                            <br><p data-tooltip="Поле обязательное для ввода.">
+                                Процедура закупки<h9 id="redast">*</h9>
+                                <select id="in6">
+                                    @foreach (var legisl in ViewBag.Legislation)
+                                    {
+                                        <option>@legisl</option>
+                                    }
+                                </select>
+                            </p></br>
+                        </div>
+                        <div class="block-1">
+                            <br><p data-tooltip="При не введенной дате будет выставленна дата на момент создания записи">
+                                Дата заключения договора
+                                <input type="date" id="in7"></input>
+                            </p></br>
+                        </div>
+                        <div class="block-1">
+                            <br />
+                            <br><p data-tooltip="Проверьте, все ли обязательные поля заполненны!">
+                                <button onclick="Country_CheckUpdate()">Редактировать</button>
+                            </p></br>
+                        </div>
+                    </div>
+                    <div class="left">
+                        <h4 align="center">Не обязательные поля ввода</h4>
+                        <br />
+                        <div class="block-1">
+                            Рег. номер договора
+                            <input id="in3"></input>
+                        </div>
+                        <br />
+                        <div class="block-1">
+                            Статус поставщика
+                            <select id="in5">
+                                <option></option>
+                                @foreach (var win in ViewBag.WinStatus)
+                                {
+                                    <option>@win</option>
+                                }
+                            </select>
+                        </div>
+                        <br />
+                        <div class="block-1">
+                            Сумма в вал. договора
+                            <input id="in8"></input>
+                        </div>
+                        <br />
+                        <div class="block-1">
+                            Валюта договора
+                            <select id="in9">
+                                <option></option>
+                                @foreach (var cur in ViewBag.Currency)
+                                {
+                                    <option>@cur</option>
+                                }
+                            </select>
+                        </div>
+                        <br />
+                        <div class="block-1">
+                            Сумма в бел. рублях
+                            <input id="in10"></input></input>
+                        </div>
+                        <br />
+                        <div class="block-1">
+                            Сумма в бел. руб. без НДС
+                            <input id="in11"></input>
+                        </div>
+                        <br />
+                        <div class="block-1">
+                            Контрагент
+                            <input id="in12"></input>
+                        </div>
+                        <br />
+                        <div class="block-1">
+                            <p data-tooltip="Введите название станы, пример: Беларусь, или выберите из списка.">
+                                Страна происхождения товара
+                                <input list="character" id="in13"></input>
+                                <datalist id="character">
+                                    @foreach (var country in ViewBag.Country)
+                                    {
+                                        <option>@country</option>
+                                    }
+                                </datalist>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-content" , id="Modal_Excel">
+        <div class="modal-header">
+            <button class="close" data-dismiss="modal1" area-hidden="true" onclick="M_Excel_C()"></button>
+            <script>
+                function M_Excel_C() {
+                    document.getElementById("Modal_Excel").style.display = "none";
+                }</script>
+            <h4 align="center">Импорт из Excel</h4>
+        </div>
+        <div class="modal-body">
+            <div align="center">
+                <br />
+                <br />
+                <input type="file" name="upload" id="uploadFile" /><br />
+                <button id="submit">Загрузить</button>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <a href="/images/TemplateDo1k.xlsx">Скачать шаблон</a>
+            </div>
+            @section scripts{
+                <script type="text/javascript">
+
+    $('#submit').on('click', function (e) {
+        e.preventDefault();
+        var files = document.getElementById('uploadFile').files;
+        if (files.length > 0) {
+            if (window.FormData !== undefined) {
+                var data = new FormData();
+                for (var x = 0; x < files.length; x++) {
+                    data.append("file" + x, files[x]);
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("UploadDo1k", "Home")',
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (result) {
+                        alert(result);
+                        var gridObj = document.getElementById("Grid").ej2_instances[0];
+                        gridObj.refresh();
+                        document.getElementById("Modal_Excel").style.display = "none";
+                    },
+                    error: function (xhr, status, p3) {
+                        alert(xhr.responseText);
+                    }
+                });
+            } else {
+                alert("Браузер не поддерживает загрузку файлов HTML5!");
+            }
+        }
+    });
+
+                </script>
+            }
+        </div>
+    </div>
+    @(Html.EJS().Grid<T_PrInfoDo1000>
+                                                                    ("Grid")
+                                                                    .DataSource(dataManager =>
+                                                                    {
+                                                                        dataManager
+                                                                        .Url("/Home/DatasourceDo1000")
+                                                                        .CrudUrl("/Home/CrudFuncDo1000")
+                                                                        .Adaptor("UrlAdaptor");
+                                                                    })
+                                                                    .AllowPaging()
+                                                                    .ToolbarClick("toolbarClick")
+                                                                    .Columns(col =>
+                                                                    {
+                                                                        col.Field("ID").HeaderText("№ записи").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("115").AllowEditing(false).ValidationRules(new { required = false }).Add();
+                                                                        col.Field("ID").IsPrimaryKey(true).Visible(false).Add();
+                                                                        col.Field("NAME_PR").HeaderText("Наименование процедуры закупки").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("190").ValidationRules(new { required = true }).Add();
+                                                                        col.Field("ID_SUBJECTPURCHASE").HeaderText("Предмет закупки").ForeignKeyField("ID").ForeignKeyValue("NAME").ValidationRules(new { required = true }).DataSource((IEnumerable<S_SubjectPurchase>
+                                                                            )ViewBag.SubjectPurchaseList).TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("135").Add();
+                                                                        col.Field("CONTRACT_NUMBER").HeaderText("Рег. номер договора").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("140").ValidationRules(new { required = false }).Add();
+                                                                        col.Field("FIO_ISP").HeaderText("Ответственный исполнитель").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("150").ValidationRules(new { required = true }).Add();
+                                                                        col.Field("ID_SUBDIVISION").HeaderText("Структурное подразделение").ForeignKeyField("ID").ForeignKeyValue("NAME").ValidationRules(new { required = true }).DataSource((IEnumerable<S_SubDivision>
+                                                                            )ViewBag.SubDivisionList).TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("200").Add();
+                                                                        col.Field("ID_WINSTATUSDO1000").HeaderText("Статус поставщика").ForeignKeyField("ID").ForeignKeyValue("NAME").ValidationRules(new { required = false }).DataSource((IEnumerable<S_WinStatus>
+                                                                            )ViewBag.WinStatusDo1000List).TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("200").Add();
+                                                                        col.Field("ID_LEGISLDO1000").HeaderText("Процедура закупки").ForeignKeyField("ID").ForeignKeyValue("NAME").ValidationRules(new { required = true }).DataSource((IEnumerable<S_LegislDo1000>
+                                                                            )ViewBag.LegislDo1000List).TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("200").Add();
+                                                                        col.Field("DATE_CONCLUSION").HeaderText("Дата заключения договора").EditType("datepickeredit").Edit(new { @params = new { format = "dd.MM.yyyy" } }).Format("dd.MM.yyyy").Type("dateTime").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("135").DefaultValue(DateTime.Now).ValidationRules(new { required = true }).Add();
+                                                                        col.Field("WIN_VALUE").HeaderText("Сумма в вал. договора").Type("number").Format("N2").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("135").ValidationRules(new { required = false }).Add();
+                                                                        col.Field("ID_CURRENCY").HeaderText("Валюта").ForeignKeyField("ID").ForeignKeyValue("LETTER_CODE").ValidationRules(new { required = false }).DataSource((IEnumerable<S_Currency>
+                                                                            )ViewBag.CurrencyList).TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("140").Add();
+                                                                        col.Field("WIN_VALUE_NDE").HeaderText("Сумма в бел.рублях").Type("number").Format("N2").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("135").ValidationRules(new { required = false }).Add();
+                                                                        col.Field("WIN_VALUE_NNDS").HeaderText("Сумма в бел. руб. без НДС").Type("number").Format("N2").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("135").ValidationRules(new { required = false }).Add();
+                                                                        col.Field("WIN_NAME").HeaderText("Контрагент").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("135").ValidationRules(new { required = false }).Add();
+                                                                        col.Field("ID_COUNTRY_ORIGIN").HeaderText("Страна происхождения товара").ForeignKeyField("ID").ForeignKeyValue("NAME").ValidationRules(new { required = false }).DataSource((IEnumerable<S_Country>
+                                                                            )ViewBag.CountryList).TextAlign((Syncfusion.EJ2.Grids.TextAlign.Center)).Width("150").Add();
+
+                                                                    })
+        .GridLines(Syncfusion.EJ2.Grids.GridLine.Both)
+        .AllowResizing(true)
+        .AllowPaging(false)
+        .PageSettings(page => page.PageSize(10))
+        .AllowSorting(true)
+        .AllowGrouping(true)
+        .AllowFiltering(true)
+        .FilterSettings(filter => { filter.Type(Syncfusion.EJ2.Grids.FilterType.CheckBox); })
+        .AllowTextWrap()
+        .Height("600")
+        .EditSettings(edit =>
+        {
+            edit.AllowAdding(true)
+            .AllowEditing(true)
+            .AllowDeleting(true)
+            .Mode(Syncfusion.EJ2.Grids.EditMode.Normal)
+            .ShowDeleteConfirmDialog(true);
+        })
+        .Toolbar(new List<string>
+            () { "Add", "Edit", "Delete", "Update", "Cancel", "ExcelExport", "Search", "Добавить", "Редактировать в окне", "Импорт из Excel"})
+            .SearchSettings(search => { search.Fields(new string[] { "NAME_PR" }).Operator("contains").IgnoreCase(true); })
+            .AllowExcelExport()
+            .QueryCellInfo("checkDate")
+            .Render()
+            )
+
+</div>
+
+<script>
+    function Refresh_Add() {
+        document.getElementById("ent1").value = "";
+        document.getElementById("sel1").value = "Работы (услуги)";
+        document.getElementById("ent2").value = "";
+        document.getElementById("ent3").value = "";
+        document.getElementById("sel2").value = "";
+        document.getElementById("sel3").value = "Прямой договор";
+        document.getElementById("ent8").value = "";
+        document.getElementById("ent4").value = "";
+        document.getElementById("sel4").value = "";
+        document.getElementById("ent5").value = "";
+        document.getElementById("ent6").value = "";
+        document.getElementById("ent7").value = "";
+        document.getElementById("ent9").value = "";
+        document.getElementById("Modal1").style.display = "none";
+        var gridObj = document.getElementById("Grid").ej2_instances[0];
+        gridObj.refresh();
+    }
+</script>
+
+<script>
+    function Refresh_Edit() {
+        document.getElementById("number_lenght").value = "";
+        document.getElementById("b1").disabled = false;
+        document.getElementById("b2").disabled = true;
+        document.getElementById("number_lenght").disabled = false;
+        document.getElementById("hid_dv").style.display = "none";
+        document.getElementById("Modal_update").style.display = "none";
+    }
+</script>
+
+<script>
+    function Edit_button() {
+        result = confirm('Вы действительно хотите изменить № строки?');
+        if (result == true) {
+            document.getElementById("b1").disabled = false;
+            document.getElementById("b2").disabled = true;
+            document.getElementById("number_lenght").disabled = false;
+            document.getElementById("hid_dv").style.display = "none";
+        }
+    }
+</script>
+
+<script>
+    function EnterFromNumber() {
+        var number = Number(document.getElementById("number_lenght").value);
+        var DataObj = { 'ID_lenght': number };
+        $.ajax({
+            url: "/Home/EnterLenghtDo1k",
+            type: "POST",
+            contentType: "application/json;charset=UTF-8",
+            data: JSON.stringify(DataObj),
+            dataType: "html",
+            success: function (result) {
+                if (result != 1) {
+                    let arr = result.split('","');
+
+                    document.getElementById("in1").value = arr[0].slice(2,);
+                    document.getElementById("in2").value = arr[1];
+                    document.getElementById("in3").value = arr[2];
+                    document.getElementById("in4").value = arr[3];
+                    document.getElementById("in5").value = arr[4];
+                    document.getElementById("in6").value = arr[5];
+                    document.getElementById("in7").valueAsDate = new Date(arr[6]);
+                    document.getElementById("in8").value = arr[7];
+                    document.getElementById("in9").value = arr[8];
+                    document.getElementById("in10").value = arr[9];
+                    document.getElementById("in11").value = arr[10];
+                    document.getElementById("in12").value = arr[11].replaceAll("\\", '');
+                    document.getElementById("in13").value = arr[12].slice(0, -2);
+                    document.getElementById("hid_dv").style.display = "block";
+                    document.getElementById("b2").disabled = false;
+                    document.getElementById("b1").disabled = true;
+                    document.getElementById("number_lenght").disabled = true;
+                }
+                else {
+                    alert(" № записи не существует!");
+                }
+            },
+            error: function () { alert(" № записи не существует!"); }
+        })
+    }
+</script>
+
+<script>
+    function Country_CheckUpdate() {
+        var country = document.getElementById("in13").value;
+        var data = { 'count': country };
+        $.ajax({
+            url: "/Home/Cauntry_CheckDo1k",
+            type: "POST",
+            contentType: "application/json;charset=UTF-8",
+            data: JSON.stringify(data),
+            dataType: "html",
+            success: function (result) {
+                if (result == 1) {
+                    Update_line();
+                }
+                else if (result == 2) {
+                    const vote = confirm("Введенной страны нет в списке, желаете добавить запись без страны?")
+                    if (vote == true) {
+                        Update_line();
+                    }
+                }
+            },
+            error: function () { alert("Что-то пошло не так"); }
+        });
+    }
+</script>
+
+<script>
+    function Update_line() {
+        var lin1 = document.getElementById("in1").value;
+        var lin2 = document.getElementById("in2").value;
+        var lin3 = document.getElementById("in3").value;
+        var lin4 = document.getElementById("in4").value;
+        var lin5 = document.getElementById("in5").value;
+        var lin6 = document.getElementById("in6").value;
+        var lin7 = document.getElementById("in7").value;
+        var lin8 = document.getElementById("in8").value;
+        var lin9 = document.getElementById("in9").value;
+        var lin10 = document.getElementById("in10").value;
+        var lin11 = document.getElementById("in11").value;
+        var lin12 = document.getElementById("in12").value;
+        var lin13 = document.getElementById("in13").value;
+        var lin14 = String(document.getElementById("in14").value);
+        var id_l = document.getElementById("number_lenght").value;
+        if (lin1 != '' && lin2 != '' && lin4 != '') {
+            var DataObj = { 'line1': lin1, 'line2': lin2, 'line3': lin3, 'line4': lin4, 'line5': lin5, 'line6': lin6, 'line7': lin7, 'line8': lin8, 'line9': lin9, 'line10': lin10, 'line11': lin11, 'line12': lin12, 'line13': lin13, 'line14': lin14, 'id': id_l };
+            $.ajax({
+                url: "/Home/Update_lineDo1k",
+                type: "POST",
+                contentType: "application/json;charset=UTF-8",
+                data: JSON.stringify(DataObj),
+                dataType: "html",
+                success: function (result) {
+                    alert(result);
+                    var gridObj = document.getElementById("Grid").ej2_instances[0];
+                    gridObj.refresh();
+                    Refresh_Edit();
+                },
+                error: function () { alert("Что-то пошло не так"); }
+            })
+        }
+    }
+</script>
+
+<script>
+    function Country_CheckIns() {
+        var country = document.getElementById("ent9").value;
+        var data = { 'count': country };
+        $.ajax({
+            url: "/Home/Cauntry_CheckDo1k",
+            type: "POST",
+            contentType: "application/json;charset=UTF-8",
+            data: JSON.stringify(data),
+            dataType: "html",
+            success: function (result) {
+                if (result == 1) {
+                    ins();
+                }
+                else if (result == 2) {
+                    const vote = confirm("Введенной страны нет в списке, желаете добавить запись без страны?")
+                    if (vote == true) {
+                        ins();
+                    }
+                }
+            },
+            error: function () { alert("Что-то пошло не так"); }
+        });
+    }
+</script>
+
+<script>
+    function ins() {
+
+        var sq1 = String(document.getElementById("ent1").value);
+        var sq2 = String(document.getElementById("sel1").value);
+        var sq3 = String(document.getElementById("ent2").value);
+        var sq4 = String(document.getElementById("ent3").value);
+        var sq5 = String(document.getElementById("sel2").value);
+        var sq6 = String(document.getElementById("sel3").value);
+        var sq7 = String(document.getElementById("ent8").value);
+        var sq8 = String(document.getElementById("ent4").value);
+        var sq9 = String(document.getElementById("sel4").value);
+        var sq10 = String(document.getElementById("ent5").value);
+        var sq11 = String(document.getElementById("ent6").value);
+        var sq12 = String(document.getElementById("ent7").value);
+        var sq13 = String(document.getElementById("ent9").value);
+        var sq14 = String(document.getElementById("sel14").value);
+        var DataObj = { 'add1': sq1, 'add2': sq2, 'add3': sq3, 'add4': sq4, 'add5': sq5, 'add6': sq6, 'add7': sq7, 'add8': sq8, 'add9': sq9, 'add10': sq10, 'add11': sq11, 'add12': sq12, 'add13': sq13, 'add14': sq14};
+            $.ajax({
+                url: "/Home/InsDo1k",
+                type: "POST",
+                contentType: "application/json;charset=UTF-8",
+                data: JSON.stringify(DataObj),
+                dataType: "html",
+                success: function (result) {
+                    if (result == 1) {
+                        alert("Данные добавлены в таблицу");
+                        setTimeout(Refresh_Add, 100);
+                    }
+                    else if(result == 2){
+                        alert("Не все обязательные поля заполнены");
+                    }    
+                },
+                error: function () { alert("Что-то пошло не так"); }
+            })
+        }
+</script>
+
+<script>
+    function M_Excel() {
+        document.getElementById("Modal_Excel").style.display = "block";
+    }
+</script>
+
+<script>
+    function M_Update() {
+        document.getElementById("Modal_update").style.display = "block";
+    }
+</script>
+
+<script>
+    function M_V() {
+        document.getElementById("Modal1").style.display = "block";
+    }
+</script>
+
+<script>
+    function toolbarClick(args) {
+        var gridObj = document.getElementById("Grid").ej2_instances[0];
+        if (args.item.id === 'Grid_excelexport') {
+            gridObj.excelExport();
+        }
+
+        if (args.item.id === 'Grid_Добавить') {
+            M_V();
+        }
+
+        if (args.item.id === 'Grid_Импорт из Excel') {
+            M_Excel();
+        }
+        
+        if (args.item.id === 'Grid_Редактировать в окне') {
+            M_Update();
+        }
+
+        if (args.item.id === 'Grid_www.icetrade.by') {
+            var invnum = "";
+            var rowIndex = gridObj.selectedRowIndex;
+            if (rowIndex > -1) {
+                var rowObj = gridObj.getRowObjectFromUID(gridObj.getSelectedRows()[0].getAttribute('data-uid'));
+                invnum = rowObj.data.INVITE_NUN;
+            };
+
+            var url = "http://www.icetrade.by/tenders/all/view/" + invnum.substr(5);
+            var win = window.open(url, '_blank');
+            win.focus();
+        }
+
+        document.getElementById('Grid_edit').onclick = setTimeout(edit_click, 100);
+
+        function edit_click(clicked) {
+            var datepickers = document.getElementsByClassName('e-datepicker');
+            for (var i = 0; i < datepickers.length; i++) {
+                var datepicker = datepickers[i].ej2_instances[0];
+                datepicker.locale = 'ru';
+                datepicker.firstDayOfWeek = 1;
+            }
+        }
+    }
+</script>
+
+<script>
+    function checkDate(args) {
+        if (args.column.field === 'CONTRACT_DATE_FACT') {
+            if (!args.data['CONTRACT_DATE_FACT']) {
+                args.cell.classList.add('less-or-null-term-date');
+            } else if (args.data['CONTRACT_DATE_TERM']) {
+                if (args.data['CONTRACT_DATE_FACT'] > args.data['CONTRACT_DATE_TERM']) {
+                    args.cell.classList.add('less-or-null-term-date');
+                }
+            }
+        }
+
+        if (args.column.field === 'RESULT_DATE_FACT') {
+            if (!args.data['RESULT_DATE_FACT']) {
+                args.cell.classList.add('less-or-null-term-date');
+            } else if (args.data['RESULT_DATE_TERM']) {
+                if (args.data['RESULT_DATE_FACT'] > args.data['RESULT_DATE_TERM']) {
+                    args.cell.classList.add('less-or-null-term-date');
+                }
+            }
+        }
+
+        if (args.column.field === 'ID_RESULT') {
+            if (args.data['ID_RESULT'] == '1') {
+                args.cell.classList.add('id-result-success');
+            }
+            else if (args.data['ID_RESULT'] == '2') {
+                args.cell.classList.add('id-result-fail');
+            }
+        }
+
+        if (args.column.field === 'MAIN_TEC_SPECS') {
+            args.cell.classList.add('e-attrs');
+        }
+    }
+</script>
+
+<script>
+    function onChange(args) {
+        var gridObj = document.getElementById("Grid").ej2_instances[0];
+        var query = new ej.data.Query();
+        if (args.value != null) {
+            query.addParams('dateFrom', args.startDate);
+            query.addParams('dateTo', args.endDate);
+        }
+        gridObj.query = query;
+        gridObj.dataSource = new ej.data.DataManager({
+            url: "/Home/DatasourceDo1000",
+            crudUrl: "/Home/CrudFuncDo1000",
+            adaptor: new ej.data.UrlAdaptor()
+        });
+        gridObj.refreshContenet();
+    }
+</script>
+
+<style>
+    .less-or-null-term-date {
+        background-color: #ffd7cc;
+        color: #e60000 !important;
+    }
+
+    .id-result-success {
+        background-color: #ccffcc;
+        color: #00cc00 !important;
+    }
+
+    .id-result-fail {
+        background-color: #ffd7cc;
+        color: #e60000 !important;
+    }
+
+    .e-edit-dialog {
+        min-width: 500px !important;
+    }
+
+    .e-attrs {
+        font-size: 6px;
+    }
+
+    #Modal1 {
+        z-index: 1;
+        position: absolute;
+        display: none;
+        width: 1400px;
+        height: 750px;
+        top: 6%;
+        left: 15%;
+    }
+
+    #Modal_update {
+        z-index: 1;
+        position: absolute;
+        display: none;
+        width: 1400px;
+        height: 750px;
+        top: 6%;
+        left: 15%;
+    }
+
+    #Modal_Excel {
+        z-index: 10;
+        position: absolute;
+        display: none;
+        width: 500px;
+        height: 315px;
+        top: 10%;
+        left: 30%;
+    }
+
+    .down:hover {
+        border-bottom: 2px solid #5be;
+        color: #555;
+        background-image: linear-gradient(180deg, transparent 65%, #5bf 65%);
+        background-position: 0% 100%;
+        background-repeat: no-repeat;
+        background-size: 100% 0%;
+    }
+
+    .close {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        width: 55px;
+        height: 55px;
+        cursor: pointer;
+        border: 4px solid #e62f57;
+        border-radius: 50%;
+    }
+
+        .close:before,
+        .close:after {
+            content: "";
+            position: absolute;
+            top: 21px;
+            left: 10px;
+            width: 26px;
+            height: 4px;
+            background: #e62f57;
+        }
+
+        .close:before {
+            webkit-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+
+        .close:after {
+            webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+        }
+
+    H1 {
+        text-shadow: 1px 1px white, 2px 2px #777;
+        color: #333;
+        transition: all 1s;
+    }
+
+        H1:hover {
+            text-shadow: 1px 1px white, 2px 2px blue;
+            color: crimson;
+        }
+
+    }
+
+    .down:hover {
+        border-bottom: 2px solid #5be;
+        color: #555;
+        background-image: linear-gradient(180deg, transparent 65%, #5bf 65%);
+        background-position: 0% 100%;
+        background-repeat: no-repeat;
+        background-size: 100% 0%;
+    }
+
+    .close {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        width: 55px;
+        height: 55px;
+        cursor: pointer;
+        border: 4px solid #e62f57;
+        border-radius: 50%;
+    }
+
+        .close:before,
+        .close:after {
+            content: "";
+            position: absolute;
+            top: 21px;
+            left: 10px;
+            width: 26px;
+            height: 4px;
+            background: #e62f57;
+        }
+
+        .close:before {
+            webkit-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+
+        .close:after {
+            webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+        }
+
+    [data-tooltip] {
+        position: relative; 
+    }
+
+        [data-tooltip]::after {
+            content: attr(data-tooltip);
+            position: absolute; 
+            width: 470px; 
+            left: 0;
+            top: 0; 
+            background: #3989c9; 
+            color: #fff; 
+            padding: 0.5em; 
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); 
+            pointer-events: none; 
+            opacity: 0; 
+            transition: 1s; 
+        }
+
+        [data-tooltip]:hover::after {
+            opacity: 1;
+            top: 2em; 
+        }
+
+    #redast {
+        color: red;
+    }
+
+    .select {
+        display: inline-block;
+        width: 100px;
+        max-width: 100px;
+        overflow: hidden;
+        padding: 2px 4px;
+        box-sizing: border-box;
+        margin: 5px;
+        cursor: pointer;
+    }
+
+    .hid_div{
+        display: none;
+    }
+
+    .container_head {
+        outline-style: solid;
+        outline-color: red;
+        height: 150px;
+        display: flex;
+    }
+
+    .block-2 {
+        margin: 5px;
+    }
+
+    .left_head {
+        outline-style: solid;
+        outline-color: rebeccapurple;
+        margin: 5px;
+        width: 50%;
+    }
+
+    .right_head {
+        outline-style: solid;
+        outline-color: aqua;
+        display: flex;
+        flex-direction: column;
+        margin: 5px;
+        width: 50%;
+    }
+
+
+    .container {
+        width: 1500px;
+        height: 740px;
+        display: flex;
+    }
+
+    .block-1 {
+        margin: 5px;
+    }
+
+    .left {
+        margin: 5px;
+        width: 50%;
+    }
+
+    .right {
+        display: flex;
+        flex-direction: column;
+        margin: 5px;
+        width: 50%;
+    }
+
+    .container-buttons {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .select {
+        display: inline-block;
+        width: 100px;
+        max-width: 100px;
+        overflow: hidden;
+        padding: 2px 4px;
+        box-sizing: border-box;
+        margin: 5px;
+        cursor: pointer;
+    }
+
+    .hid_div {
+        display: none;
+    }
+</style>

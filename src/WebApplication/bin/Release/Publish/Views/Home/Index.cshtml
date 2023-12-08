@@ -1,0 +1,300 @@
+﻿@using WebApplication.Models
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div id="grid" style="margin-top:80px">
+
+    @Html.EJS().DateRangePicker("daterangepicker").Format("dd.MM.yyyy").Width("25%").Presets(PresetItem =>
+            {
+                PresetItem.Label("Эта неделя").Start(ViewBag.weekStart).End(ViewBag.weekEnd).Add();
+                PresetItem.Label("Этот месяц").Start(ViewBag.monthStart).End(ViewBag.monthEnd).Add();
+                 PresetItem.Label("Этот год").Start(ViewBag.YearStart).End(ViewBag.YearEnd).Add();
+                PresetItem.Label("Прошлый месяц").Start(ViewBag.lastMonthStart).End(ViewBag.lastMonthEnd).Add();
+                PresetItem.Label("Прошлый год").Start(ViewBag.lastYearStart).End(ViewBag.lastYearEnd).Add();
+            }
+            ).Change("onChange").Render()
+    <br />
+    <br />
+    @(Html.EJS().Grid<T_ProcurementInformation>
+                                                                    ("Grid")
+                                                                    .DataSource(dataManager =>
+                                                                    {
+                                                                        dataManager
+                                                                        .Url("/Home/Datasource")
+                                                                        .CrudUrl("/Home/CrudFunc")
+                                                                        .Adaptor("UrlAdaptor");
+                                                                    })
+                                                                    .AllowPaging()
+                                                                    .ToolbarClick("toolbarClick")
+                                                                    .Columns(col =>
+                                                                    {
+                                                                        col.Field("ID").IsPrimaryKey(true).Visible(false).Add();
+                                                                        col.Field("NAME_PR").HeaderText("Наименование процедуры закупки").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("190").ValidationRules(new { required = true }).Add();
+                                                                        col.Field("INVITE_NUN").HeaderText("Рег. номер приглашения").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("140").ValidationRules(new { required = false }).Add();
+                                                                        col.Field("FIO_ISP").HeaderText("Ответственный исполнитель").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("150").ValidationRules(new { required = true }).Add();
+                                                                        col.Field("ID_LEGISLATION").HeaderText("Законодательство").ForeignKeyField("ID").ForeignKeyValue("NAME").ValidationRules(new { required = true }).DataSource((IEnumerable<S_Legislation>
+                                                                            )ViewBag.LegislationList).TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("135").Add();
+                                                                        col.Field("PR_APPROVAL_DATE").HeaderText("Дата утверждения протокола").EditType("datepickeredit").Edit(new { @params = new { format = "dd.MM.yyyy" } }).Format("dd.MM.yyyy").Type("dateTime").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("135").ValidationRules(new { required = true }).Add();
+                                                                        col.Field("ID_RESULT").HeaderText("Результат закупки").ForeignKeyField("ID").ForeignKeyValue("NAME").ValidationRules(new { required = false }).DataSource((IEnumerable<S_Result>
+                                                                            )ViewBag.ResultList).TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Width("120").Add();
+                                                                        col.HeaderText("Дата заключения договора").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center)
+                                                                        .Columns(new List<Syncfusion.EJ2.Grids.GridColumn>
+                                                                            ()
+                                                                            {
+                                                                new Syncfusion.EJ2.Grids.GridColumn
+                                                                {
+                                                                    Field = "CONTRACT_DATE_TERM",
+                                                                    HeaderText = "по сроку",
+                                                                    EditType = "datepickeredit",
+                                                                    Edit = new {@params = new { format = "dd.MM.yyyy" } },
+                                                                    Format = "dd.MM.yyyy",
+                                                                    Type = "dateTime",
+                                                                    TextAlign=Syncfusion.EJ2.Grids.TextAlign.Center,
+                                                                    Width = "115",
+                                                                    AllowEditing = false,
+                                                                    ValidationRules = new { required = false }
+                                                                },
+                                                                new Syncfusion.EJ2.Grids.GridColumn
+                                                                {
+                                                                    Field = "CONTRACT_DATE_FACT",
+                                                                    HeaderText = "факт",
+                                                                    EditType = "datepickeredit",
+                                                                    Edit = new {@params = new { format = "dd.MM.yyyy" } },
+                                                                    Format = "dd.MM.yyyy",
+                                                                    Type = "dateTime",
+                                                                    TextAlign=Syncfusion.EJ2.Grids.TextAlign.Center,
+                                                                    Width = "115",
+                                                                    ValidationRules = new { required = false }
+                                                                }})
+                                                                            .Add();
+                                                                        col.HeaderText("Дата размещения результата на сайте").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center)
+                                                                        .Columns(new List<Syncfusion.EJ2.Grids.GridColumn>
+                                                                            ()
+                                                                            {
+                                                                new Syncfusion.EJ2.Grids.GridColumn
+                                                                {
+                                                                    Field = "RESULT_DATE_TERM",
+                                                                    HeaderText = "по сроку",
+                                                                    EditType = "datepickeredit",
+                                                                    Edit = new {@params = new { format = "dd.MM.yyyy" } },
+                                                                    Format = "dd.MM.yyyy",
+                                                                    Type = "dateTime",
+                                                                    TextAlign=Syncfusion.EJ2.Grids.TextAlign.Center,
+                                                                    Width = "115",
+                                                                    AllowEditing = false,
+                                                                    ValidationRules = new { required = false }
+                                                                },
+                                                                new Syncfusion.EJ2.Grids.GridColumn
+                                                                {
+                                                                    Field = "RESULT_DATE_FACT",
+                                                                    HeaderText = "факт",
+                                                                    EditType = "datepickeredit",
+                                                                    Edit = new {@params = new { format = "dd.MM.yyyy" } },
+                                                                    Format = "dd.MM.yyyy",
+                                                                    Type = "dateTime",
+                                                                    TextAlign =Syncfusion.EJ2.Grids.TextAlign.Center,
+                                                                    Width = "115",
+                                                                    ValidationRules = new { required = false }
+                                                                }
+                                                                            })
+                                                                            .Add();
+                                                                        col.HeaderText("Сведения о победителе").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center)
+                                                                        .Columns(new List<Syncfusion.EJ2.Grids.GridColumn>
+                                                                            ()
+                                                                            {
+                                                                new Syncfusion.EJ2.Grids.GridColumn
+                                                                {
+                                                                    Field = "WIN_NAME",
+                                                                    HeaderText = "Победитель",
+                                                                    TextAlign =Syncfusion.EJ2.Grids.TextAlign.Center,
+                                                                    Width = "140",
+                                                                    ValidationRules = new { required = false }
+                                                                },                                                                
+                                                                new Syncfusion.EJ2.Grids.GridColumn
+                                                                {
+                                                                    Field = "WIN_VALUE",
+                                                                    HeaderText = "Стоимость",
+                                                                    Type = "number",
+                                                                    Format = "N2",
+                                                                    TextAlign =Syncfusion.EJ2.Grids.TextAlign.Center,
+                                                                    Width = "135",
+                                                                    ValidationRules = new { required = false }
+                                                                },
+                                                                new Syncfusion.EJ2.Grids.GridColumn
+                                                                {
+                                                                    Field = "ID_CURRENCY",
+                                                                    HeaderText = "Валюта",
+                                                                    ForeignKeyField = "ID",
+                                                                    ForeignKeyValue = "LETTER_CODE",
+                                                                    ValidationRules = new { required = false },
+                                                                    DataSource = ((IEnumerable<S_Currency>
+                                                                    )ViewBag.CurrencyList),
+                                                                    TextAlign =Syncfusion.EJ2.Grids.TextAlign.Center,
+                                                                    Width = "105"
+                                                                },
+                                                                new Syncfusion.EJ2.Grids.GridColumn
+                                                                {
+                                                                    Field = "ID_WINSTATUS",
+                                                                    HeaderText = "Статус",
+                                                                    ForeignKeyField = "ID",
+                                                                    ForeignKeyValue = "NAME",
+                                                                    ValidationRules = new { required = false },
+                                                                    DataSource = ((IEnumerable<S_WinStatus>
+                                                                    )ViewBag.WinStatusList),
+                                                                    TextAlign =Syncfusion.EJ2.Grids.TextAlign.Center,
+                                                                    Width = "140"
+                                                                }
+                                                                                })
+                                                                                .Add();
+                                                                        col.HeaderText("Передано в КРО для проведения служебного расследования").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center)
+                                                                        .Columns(new List<Syncfusion.EJ2.Grids.GridColumn>
+                                                                            ()
+                                                                            {
+                                                                new Syncfusion.EJ2.Grids.GridColumn
+                                                                {
+                                                                    Field = "KRO_DATE_TERM",
+                                                                    HeaderText = "по сроку",
+                                                                    EditType = "datepickeredit",
+                                                                    Edit = new {@params = new { format = "dd.MM.yyyy"} },
+                                                                    Format = "dd.MM.yyyy",
+                                                                    Type = "dateTime",
+                                                                    TextAlign =Syncfusion.EJ2.Grids.TextAlign.Center,
+                                                                    Width = "115",
+                                                                    ValidationRules = new { required = false }
+                                                                },
+                                                                new Syncfusion.EJ2.Grids.GridColumn
+                                                                {
+                                                                    Field = "KRO_DATE_FACT",
+                                                                    HeaderText = "факт",
+                                                                    EditType = "datepickeredit",
+                                                                    Edit = new {@params = new { format = "dd.MM.yyyy" } },
+                                                                    Format = "dd.MM.yyyy",
+                                                                    Type = "dateTime",
+                                                                    TextAlign =Syncfusion.EJ2.Grids.TextAlign.Center,
+                                                                    Width = "115",
+                                                                    ValidationRules = new { required = false }
+                                                                }
+                                                                            })
+                                                                            .Add();
+                                                                    })
+                                                                                                //.GroupSettings(group => { group.ShowDropArea(true).Columns(new string[] { "ID_LEGISLATION" }); })
+                                                                                                .GridLines(Syncfusion.EJ2.Grids.GridLine.Both)
+                                                                                                .AllowResizing(true)
+                                                                                                .AllowPaging(false)
+                                                                                                .PageSettings(page => page.PageSize(10))
+                                                                                                .AllowSorting(true)
+                                                                                                .AllowGrouping(true)
+                                                                                                .AllowFiltering(true)
+                                                                                                .FilterSettings(filter => { filter.Type(Syncfusion.EJ2.Grids.FilterType.CheckBox); })
+                                                                                                .AllowTextWrap()
+                                                                                                .Height("600")
+                                                                                                .EditSettings(edit =>
+                                                                                                {
+                                                                                                    edit.AllowAdding(true)
+                                                                .AllowEditing(true)
+                                                                .AllowDeleting(true)
+                                                                .Mode(Syncfusion.EJ2.Grids.EditMode.Normal)
+                                                                .ShowDeleteConfirmDialog(true);
+                                                                                                })
+                                                                                                .Toolbar(new List<string>
+                                                                                                    () { "Add", "Edit", "Delete", "Update", "Cancel", "ExcelExport", "Search" })
+                                                                                                    .SearchSettings(search => { search.Fields(new string[] { "NAME_PR" }).Operator("contains").IgnoreCase(true); })
+                                                                                                    .AllowExcelExport()
+                                                                                                    .QueryCellInfo("checkDate")
+                                                                                                    .Render()
+    )
+</div>
+
+<script>
+    function toolbarClick(args) {
+        var gridObj = document.getElementById("Grid").ej2_instances[0];
+        if (args.item.id === 'Grid_excelexport') {
+            gridObj.excelExport();
+        }
+
+        document.getElementById('Grid_edit').onclick = setTimeout(edit_click, 100);
+
+        function edit_click(clicked) {
+            var datepickers = document.getElementsByClassName('e-datepicker');
+            for (var i = 0; i < datepickers.length; i++) {
+                var datepicker = datepickers[i].ej2_instances[0];
+                datepicker.locale = 'ru';
+                datepicker.firstDayOfWeek = 1;
+            }
+        }
+    }
+</script>
+
+<script>
+    function checkDate(args) {
+
+        if (args.column.field === 'CONTRACT_DATE_FACT') {
+            if (!args.data['CONTRACT_DATE_FACT']) {
+                args.cell.classList.add('less-or-null-term-date');
+            } else if (args.data['CONTRACT_DATE_TERM']) {
+                if (args.data['CONTRACT_DATE_FACT'] > args.data['CONTRACT_DATE_TERM']) {
+                    args.cell.classList.add('less-or-null-term-date');
+                }
+            }
+        }
+
+        if (args.column.field === 'RESULT_DATE_FACT') {
+            if (!args.data['RESULT_DATE_FACT']) {
+                args.cell.classList.add('less-or-null-term-date');
+            } else if (args.data['RESULT_DATE_TERM']) {
+                if (args.data['RESULT_DATE_FACT'] > args.data['RESULT_DATE_TERM']) {
+                    args.cell.classList.add('less-or-null-term-date');
+                }
+            }
+        }
+
+        if (args.column.field === 'ID_RESULT') {
+            if (args.data['ID_RESULT'] == '1') {
+                args.cell.classList.add('id-result-success');
+            }
+            else if (args.data['ID_RESULT'] == '2') {
+                args.cell.classList.add('id-result-fail');
+            }
+        }
+    }
+
+</script>
+
+<script>
+    function onChange(args) {
+        var gridObj = document.getElementById("Grid").ej2_instances[0];
+        var query = new ej.data.Query();
+        if (args.value != null) {
+            query.addParams('dateFrom', args.startDate);
+            query.addParams('dateTo', args.endDate);
+        }
+        gridObj.query = query;
+        gridObj.dataSource = new ej.data.DataManager({
+            url: "/Home/Datasource",
+            crudUrl: "/Home/CrudFunc",
+            adaptor: new ej.data.UrlAdaptor()
+        });
+    }    
+</script>
+
+<style>
+    .less-or-null-term-date {
+        background-color: #ffd7cc;
+        color: #e60000 !important;
+    }
+
+    .id-result-success {
+        background-color: #ccffcc;
+        color: #00cc00 !important;
+    }
+
+    .id-result-fail {
+        background-color: #ffd7cc;
+        color: #e60000 !important;
+    }
+
+    .e-edit-dialog {
+        min-width: 500px !important;
+    }
+</style>
